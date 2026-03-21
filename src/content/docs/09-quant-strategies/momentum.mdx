@@ -1,0 +1,410 @@
+---
+title: 모멘텀 전략
+description: RSI, MACD, ROC 기반 추세 모멘텀 자동매매 전략
+sidebar:
+  order: 1
+---
+
+## 모멘텀 전략이란?
+
+모멘텀(Momentum)은 "오르는 자산은 계속 오르고, 내리는 자산은 계속 내린다"는 관성의 원리를 시장에 적용한 개념입니다. 행동재무학 연구(Jegadeesh & Titman, 1993)에서 처음 정량화된 이후, 모멘텀은 **가장 강력하고 지속적인 시장 이상 현상(anomaly)** 중 하나로 인정받고 있습니다.
+
+모멘텀 전략은 크게 두 가지로 나뉩니다:
+
+| 유형 | 방향 | 원리 |
+|------|------|------|
+| **추세 추종** | 모멘텀 방향으로 진입 | 강한 추세가 지속된다 |
+| **역추세 (Contrarian)** | 모멘텀 반대 방향 진입 | 과도한 쏠림은 되돌아온다 |
+
+이 챕터에서는 RSI 역추세, MACD 크로스오버, 이중 모멘텀, ROC 스코어링 등 **4가지 실전 모멘텀 전략을** 다룹니다. 각 전략의 수학적 원리, 진입/청산 규칙, Python 의사코드, 장단점을 상세히 설명합니다.
+
+---
+
+## 전략 1: RSI 역추세 전략 (RSI Contrarian)
+
+### 원리
+
+RSI(Relative Strength Index)는 일정 기간 동안의 평균 상승폭과 평균 하락폭의 비율로 가격의 **모멘텀 과열 정도를** 측정합니다. RSI가 극단값(30 이하 또는 70 이상)에 도달하면 시장이 과매도 또는 과매수 상태라고 판단하며, 역추세 전략은 이 구간에서 **반전을 포착합**니다.
+
+### 공식
+
+$$RSI = 100 - \frac{100}{1 + RS}, \quad RS = \frac{\text{평균 상승폭}}{\text{평균 하락폭}}$$
+
+- **평균 상승폭**: 최근 $n$일(기본 14일) 중 상승한 날의 상승폭 평균
+- **평균 하락폭**: 최근 $n$일 중 하락한 날의 하락폭 평균 (절댓값)
+- RSI 범위: 0 ~ 100
+
+**수치 예시** (14일 RSI):
+
+| 항목 | 값 |
+|------|-----|
+| 14일 평균 상승폭 | 1.2% |
+| 14일 평균 하락폭 | 2.0% |
+| RS | 1.2 / 2.0 = 0.6 |
+| RSI | 100 - 100/(1+0.6) = **37.5** |
+
+→ RSI 37.5 → 과매도 구간(30) 접근 중, 반전 신호 대기
+
+### 진입·청산 규칙
+
+| 신호 | 조건 | 행동 |
+|------|------|------|
+| **매수 진입** | RSI < 30 (과매도) | 다음 봉 시가에 매수 |
+| **매도 진입** | RSI > 70 (과매수) | 다음 봉 시가에 공매도 |
+| **매수 청산** | RSI > 50 (중립 회복) | 익절 |
+| **손절 (매수)** | 최근 저점 하단 돌파 | 손절 매도 |
+| **손절 (공매도)** | 최근 고점 상단 돌파 | 손절 환매 |
+
+### Python 의사코드
+
+```python
+# RSI 역추세 전략 의사코드
+def rsi_contrarian_strategy(prices, rsi_period=14, oversold=30, overbought=70):
+    rsi = compute_rsi(prices, period=rsi_period)
+    position = None  # None, 'long', 'short'
+    entry_price = None
+    recent_low = None
+
+    for i in range(rsi_period, len(prices)):
+        price = prices[i]
+        current_rsi = rsi[i]
+
+        # 매수 진입: 과매도 구간 진입
+        if position is None and current_rsi < oversold:
+            position = 'long'
+            entry_price = prices[i + 1]  # 다음 봉 시가
+            recent_low = min(prices[i - 5:i])  # 최근 5봉 저점
+            stop_loss = recent_low * 0.995
+
+        # 매수 청산: RSI 중립 회복
+        elif position == 'long':
+            if current_rsi > 50:
+                execute_sell(price)  # 익절
+                position = None
+            elif price < stop_loss:
+                execute_sell(price)  # 손절
+                position = None
+
+        # 공매도 진입: 과매수 구간 진입
+        elif position is None and current_rsi > overbought:
+            position = 'short'
+            entry_price = prices[i + 1]
+            recent_high = max(prices[i - 5:i])
+            stop_loss = recent_high * 1.005
+
+        # 공매도 청산: RSI 중립 회복
+        elif position == 'short':
+            if current_rsi < 50:
+                execute_buy_cover(price)  # 익절
+                position = None
+            elif price > stop_loss:
+                execute_buy_cover(price)  # 손절
+                position = None
+```
+
+### 장단점
+
+**장점**:
+- 횡보장에서 높은 승률 — 과매도/과매수 반전이 빈번하게 발생
+- 진입·청산 규칙이 명확하여 자동화 용이
+- 손절 기준(최근 저점)이 논리적
+
+**단점**:
+- 강한 추세장에서는 RSI가 장기간 과매도/과매수 상태 유지 → 연속 손절 위험
+- 추세 필터 없이 단독 사용 시 추세장에서 큰 손실 가능
+- 14일 기간은 시장 환경에 따라 재조정 필요
+
+**개선 방법**: 50일 SMA 방향을 1차 필터로 추가 — 가격 > 50 SMA 인 경우에만 매수, 가격 < 50 SMA 인 경우에만 공매도로 진입을 제한하면 추세장 손실을 대폭 줄일 수 있습니다.
+
+---
+
+## 전략 2: MACD 크로스오버 전략 (MACD Momentum)
+
+### 원리
+
+MACD(Moving Average Convergence Divergence)는 단기 지수이동평균(EMA)과 장기 EMA의 차이를 이용해 **추세 전환 시점을** 포착합니다. MACD선이 시그널선을 상향 돌파하는 **골든크로스는** 매수 신호, 하향 돌파하는 **데드크로스는** 매도 신호로 해석합니다.
+
+### 공식
+
+$$MACD = EMA_{12} - EMA_{26}$$
+
+$$Signal = EMA_9(MACD)$$
+
+$$Histogram = MACD - Signal$$
+
+- $EMA_{12}$: 12일 지수이동평균 (단기 추세)
+- $EMA_{26}$: 26일 지수이동평균 (장기 추세)
+- **시그널선**: MACD의 9일 EMA (방향성 확인)
+- **히스토그램**: MACD와 시그널선의 차이 (모멘텀 강도)
+
+**수치 예시**:
+
+| 날짜 | EMA12 | EMA26 | MACD | Signal | Histogram |
+|------|-------|-------|------|--------|-----------|
+| D-3 | 50,200 | 50,500 | -300 | -280 | -20 |
+| D-2 | 50,350 | 50,480 | -130 | -240 | +110 |
+| D-1 | 50,600 | 50,460 | +140 | -160 | **+300** |
+| D+0 | 50,900 | 50,450 | +450 | -40 | **+490** |
+
+→ D-1에서 MACD가 시그널선을 상향 돌파 (골든크로스) → 매수 신호 발생
+
+### 골든크로스·데드크로스 규칙
+
+| 신호 | 조건 | 행동 |
+|------|------|------|
+| **골든크로스 (매수)** | MACD가 시그널선을 상향 돌파 | 다음 봉 시가에 매수 |
+| **데드크로스 (매도)** | MACD가 시그널선을 하향 돌파 | 포지션 청산 또는 공매도 |
+| **강화 신호** | 히스토그램이 0선 위에서 확대 | 추세 강화 — 홀드 |
+| **약화 신호** | 히스토그램이 줄어들기 시작 | 청산 준비 |
+
+### Python 의사코드
+
+```python
+# MACD 크로스오버 전략 의사코드
+def macd_crossover_strategy(prices, fast=12, slow=26, signal=9):
+    ema_fast = compute_ema(prices, fast)
+    ema_slow = compute_ema(prices, slow)
+    macd_line = ema_fast - ema_slow
+    signal_line = compute_ema(macd_line, signal)
+    histogram = macd_line - signal_line
+
+    position = None
+    entry_price = None
+
+    for i in range(slow + signal, len(prices)):
+        prev_macd = macd_line[i - 1]
+        curr_macd = macd_line[i]
+        prev_sig = signal_line[i - 1]
+        curr_sig = signal_line[i]
+
+        # 골든크로스: MACD가 시그널선을 상향 돌파
+        if prev_macd < prev_sig and curr_macd > curr_sig:
+            if position != 'long':
+                if position == 'short':
+                    execute_buy_cover(prices[i])  # 공매도 청산
+                position = 'long'
+                entry_price = prices[i + 1]  # 다음 봉 시가 진입
+
+        # 데드크로스: MACD가 시그널선을 하향 돌파
+        elif prev_macd > prev_sig and curr_macd < curr_sig:
+            if position == 'long':
+                execute_sell(prices[i])  # 매수 청산
+            position = 'short'
+            entry_price = prices[i + 1]
+```
+
+### 장단점
+
+**장점**:
+- 추세 추종 전략으로 강한 추세장에서 큰 수익 가능
+- 히스토그램으로 모멘텀 강도 시각화 용이
+- 표준 파라미터(12/26/9)가 널리 검증됨
+
+**단점**:
+- 횡보장에서 잦은 크로스오버 발생 → 채찍질(Whipsaw) 손실 누적
+- 후행 지표이므로 진입 시점이 늦어 고점/저점 근처 진입 위험
+- 단독 사용 시 거짓 신호 비율이 높음
+
+**개선 방법**: ADX > 25 조건을 추가하여 추세가 존재하는 구간에서만 크로스오버 신호를 사용합니다. 횡보장에서는 MACD 전략을 비활성화하는 것이 핵심입니다.
+
+---
+
+## 전략 3: 이중 모멘텀 전략 (Dual Momentum — Gary Antonacci)
+
+### 원리
+
+Gary Antonacci가 2014년 저서 *Dual Momentum Investing*에서 소개한 전략으로, **상대 모멘텀과** **절대 모멘텀을** 결합하여 자산을 선택합니다.
+
+- **상대 모멘텀**: 여러 자산 중 성과가 가장 좋은 자산을 선택 (비교 우위)
+- **절대 모멘텀**: 선택된 자산이 현금보다 나은지 확인 (시장 진입 여부 결정)
+
+### 공식
+
+$$\text{모멘텀 스코어} = \frac{P_t}{P_{t-n}} - 1$$
+
+- $P_t$: 현재 가격
+- $P_{t-n}$: $n$개월 전 가격 (기본 12개월)
+- 결과: 최근 $n$개월 수익률
+
+**수치 예시** (12개월 수익률 기준):
+
+| 자산 | 12개월 전 가격 | 현재 가격 | 모멘텀 스코어 |
+|------|-------------|---------|------------|
+| 미국 주식 (SPY) | $380 | $480 | **+26.3%** |
+| 국제 주식 (EFA) | $65 | $70 | +7.7% |
+| 채권 (AGG) | $110 | $105 | -4.5% |
+| 현금 (T-Bill) | — | — | +5.0% |
+
+→ 상대 모멘텀: SPY 선택 (가장 높은 수익률)
+→ 절대 모멘텀: SPY (+26.3%) > 현금 (+5.0%) → 주식 보유
+
+### 단계별 필터링
+
+**1단계 — 상대 모멘텀 (자산 선택)**:
+- 후보 자산들의 최근 $n$개월 수익률 계산
+- 가장 높은 수익률 자산 선택
+
+**2단계 — 절대 모멘텀 (시장 진입 여부)**:
+- 선택된 자산의 수익률 > 무위험 수익률(T-Bill) → 해당 자산 투자
+- 선택된 자산의 수익률 < 무위험 수익률 → 전액 현금 또는 채권으로 대피
+
+**3단계 — 월별 리밸런싱**:
+- 매월 말에 모멘텀 스코어를 재계산하여 보유 자산을 교체
+
+### Python 의사코드
+
+```python
+# 이중 모멘텀 전략 의사코드
+def dual_momentum_strategy(price_data, lookback_months=12):
+    """
+    price_data: dict — {'SPY': [...], 'EFA': [...], 'AGG': [...], 'TBILL': [...]}
+    월별 가격 데이터
+    """
+    portfolio = 'cash'
+    monthly_results = []
+
+    for month_idx in range(lookback_months, len(price_data['SPY'])):
+        # 1단계: 상대 모멘텀 계산
+        momentum_scores = {}
+        for asset in ['SPY', 'EFA']:
+            current = price_data[asset][month_idx]
+            past = price_data[asset][month_idx - lookback_months]
+            momentum_scores[asset] = (current / past) - 1
+
+        # 가장 높은 모멘텀 자산 선택
+        best_asset = max(momentum_scores, key=momentum_scores.get)
+        best_score = momentum_scores[best_asset]
+
+        # 2단계: 절대 모멘텀 (현금 대비 비교)
+        tbill_return = price_data['TBILL'][month_idx]
+        if best_score > tbill_return:
+            portfolio = best_asset  # 주식 보유
+        else:
+            portfolio = 'AGG'  # 채권(안전자산)으로 대피
+
+        monthly_results.append({
+            'month': month_idx,
+            'holding': portfolio,
+            'momentum': best_score
+        })
+
+    return monthly_results
+```
+
+### 장단점
+
+**장점**:
+- 절대 모멘텀 필터가 큰 하락장에서 포트폴리오를 보호 (MDD 대폭 감소)
+- 월별 리밸런싱으로 거래 빈도가 낮아 거래 비용 최소화
+- 광범위한 학술 및 실증 검증 완료 (1974~2013, 연 17.4% 수익)
+- 단순한 규칙으로 자동화 용이
+
+**단점**:
+- 12개월 룩백 기간으로 인해 추세 전환에 느리게 반응
+- 월별 리밸런싱이 잦은 체제 전환 시 채찍질 발생 가능
+- 단 2~3개 자산만 보유하므로 집중 위험 존재
+- 단기 트레이더에게는 지나치게 느린 전략
+
+---
+
+## 전략 4: ROC 모멘텀 스코어링 (Rate of Change)
+
+### 원리
+
+ROC(Rate of Change)는 현재 가격과 $n$기간 전 가격의 변화율을 측정하는 **순수 모멘텀 지표입**니다. 이중 모멘텀 전략의 모멘텀 스코어와 수학적으로 동일하지만, ROC는 단일 종목 또는 다중 종목의 **상대적 모멘텀 순위 기반 포트폴리오 구성에** 활용합니다.
+
+### 공식
+
+$$ROC = \frac{P_t - P_{t-n}}{P_{t-n}} \times 100$$
+
+- $P_t$: 현재 가격
+- $P_{t-n}$: $n$기간 전 가격
+- 결과: 백분율(%) 단위의 변화율
+
+**수치 예시** (20일 ROC):
+
+| 종목 | 20일 전 가격 | 현재 가격 | ROC | 순위 |
+|------|-----------|---------|-----|------|
+| 삼성전자 | 70,000원 | 77,700원 | **+11.0%** | 1위 |
+| SK하이닉스 | 130,000원 | 141,700원 | +9.0% | 2위 |
+| LG에너지솔루션 | 400,000원 | 424,000원 | +6.0% | 3위 |
+| 카카오 | 55,000원 | 52,250원 | -5.0% | 최하위 |
+
+### ROC 순위 기반 포트폴리오 선택
+
+**전략 규칙**:
+1. 유니버스(예: KOSPI 200) 내 모든 종목의 ROC 계산
+2. ROC 상위 N% 종목을 동일 비중으로 매수 (예: 상위 20%)
+3. ROC 하위 종목은 제외 또는 공매도 (롱/숏 전략)
+4. 월별 또는 주별 리밸런싱으로 순위 갱신
+
+### Python 의사코드
+
+```python
+# ROC 모멘텀 스코어링 전략 의사코드
+def roc_momentum_scoring(price_universe, roc_period=20, top_pct=0.2):
+    """
+    price_universe: dict — {ticker: [prices]}
+    top_pct: 상위 비율 (0.2 = 상위 20%)
+    """
+    portfolio = {}
+
+    # 각 종목 ROC 계산
+    roc_scores = {}
+    for ticker, prices in price_universe.items():
+        current_price = prices[-1]
+        past_price = prices[-roc_period - 1]
+        roc = (current_price - past_price) / past_price * 100
+        roc_scores[ticker] = roc
+
+    # ROC 기준 정렬 및 상위 N% 선택
+    sorted_tickers = sorted(roc_scores, key=roc_scores.get, reverse=True)
+    n_select = max(1, int(len(sorted_tickers) * top_pct))
+    selected = sorted_tickers[:n_select]
+
+    # 동일 비중 배분
+    weight = 1.0 / n_select
+    for ticker in selected:
+        portfolio[ticker] = {
+            'weight': weight,
+            'roc': roc_scores[ticker]
+        }
+
+    return portfolio
+
+# 리밸런싱 루프
+def run_monthly_rebalance(price_universe, roc_period=20):
+    for rebalance_date in monthly_dates:
+        new_portfolio = roc_momentum_scoring(
+            price_universe_at(rebalance_date),
+            roc_period=roc_period
+        )
+        execute_rebalance(current_portfolio, new_portfolio)
+```
+
+### 장단점
+
+**장점**:
+- 계산이 단순하여 대규모 유니버스에 빠르게 적용 가능
+- 학술적으로 검증된 크로스섹셔널 모멘텀 효과를 직접 활용
+- 다양한 룩백 기간 조합(예: 1개월 + 6개월 + 12개월 합산)으로 강건성 향상 가능
+- 개별 종목 분석 없이 시스템적 종목 선정
+
+**단점**:
+- 모멘텀 반전(Momentum Crash) 위험 — 급격한 시장 회복 시 고모멘텀 종목이 급락
+- 소형주에서는 유동성 부족으로 실제 체결이 어려울 수 있음
+- 거래 비용이 높은 환경에서 잦은 리밸런싱은 수익을 잠식
+- 단순 ROC만으로는 변동성 조정이 없어 고변동성 종목이 과대 선택될 수 있음
+
+---
+
+## 관련 챕터
+
+| 주제 | 링크 |
+|------|------|
+| 이동평균 | [추세 분석 — 이동평균](/technical-analysis/02-trend-analysis/moving-averages) |
+| RSI 지표 기초 | [오실레이터 vs 추세 지표](/technical-analysis/04-indicators/oscillators-vs-trend) |
+| MACD 심화 | [복합 지표 활용](/technical-analysis/06-advanced/composite-indicators) |
+| 백테스팅 | [백테스팅 기초](/technical-analysis/06-advanced/backtesting-basics) |
+| 포지션 사이징 | [포지션 사이징](/technical-analysis/07-risk-management/position-sizing) |
+| 평균회귀 전략 | [평균회귀 전략](/technical-analysis/09-quant-strategies/mean-reversion) |

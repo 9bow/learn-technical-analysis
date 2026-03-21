@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480">
+  <style>
+    .label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 12px; }
+    .label-sm { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; }
+    .title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700; }
+    .pct-label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 11px; font-weight: 700; }
+    .golden { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 11px; font-weight: 700; }
+
+    .bg { fill: #ffffff; }
+    .text { fill: #374151; }
+    .text-muted { fill: #6b7280; }
+    .fib-line { stroke: #6b7280; stroke-width: 1.2; stroke-dasharray: 6,4; }
+    .axis { stroke: #d1d5db; stroke-width: 1; }
+    .zone-618 { fill: #3b82f6; opacity: 0.08; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .text { fill: #e2e8f0; }
+      .text-muted { fill: #94a3b8; }
+      .fib-line { stroke: #475569; }
+      .axis { stroke: #334155; }
+    }
+  </style>
+
+  <rect width="800" height="480" class="bg" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" class="title text">피보나치 되돌림 (Fibonacci Retracement)</text>
+
+  <g transform="translate(60, 50)">
+
+    <!-- Chart area: x 0-600, y 0-380 -->
+    <!-- Price range: top=40 (100%), bottom=360 (0%) -->
+    <!-- Range = 320px -->
+
+    <!-- Fib level y-coordinates (from bottom 360 going up):
+         0%    = 360
+         23.6% = 360 - 0.236*320 = 360 - 75.5 = 284.5 ≈ 285
+         38.2% = 360 - 0.382*320 = 360 - 122 = 238
+         50%   = 360 - 0.500*320 = 360 - 160 = 200
+         61.8% = 360 - 0.618*320 = 360 - 198 = 162
+         78.6% = 360 - 0.786*320 = 360 - 252 = 108
+         100%  = 40
+    -->
+
+    <!-- Fib zone highlight at 61.8% -->
+    <rect x="0" y="152" width="600" height="20" class="zone-618"/>
+    <rect x="0" y="152" width="600" height="20" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.4"/>
+
+    <!-- Fib horizontal lines -->
+    <line x1="0" y1="40" x2="600" y2="40" class="fib-line"/>
+    <line x1="0" y1="285" x2="600" y2="285" class="fib-line"/>
+    <line x1="0" y1="238" x2="600" y2="238" class="fib-line"/>
+    <line x1="0" y1="200" x2="600" y2="200" class="fib-line"/>
+    <line x1="0" y1="162" x2="600" y2="162" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8,4"/>
+    <line x1="0" y1="108" x2="600" y2="108" class="fib-line"/>
+    <line x1="0" y1="360" x2="600" y2="360" class="fib-line"/>
+
+    <!-- Fib level labels (right side) -->
+    <text x="608" y="44" class="pct-label text">100% — 고점</text>
+    <text x="608" y="289" class="pct-label text-muted">23.6%</text>
+    <text x="608" y="242" class="pct-label text-muted">38.2%</text>
+    <text x="608" y="204" class="pct-label text-muted">50.0%</text>
+    <text x="608" y="166" class="pct-label" fill="#3b82f6">61.8%</text>
+    <text x="608" y="112" class="pct-label text-muted">78.6%</text>
+    <text x="608" y="364" class="pct-label text">0% — 저점</text>
+
+    <!-- Golden ratio badge -->
+    <rect x="610" y="170" width="120" height="22" fill="#3b82f6" opacity="0.15" rx="4"/>
+    <rect x="610" y="170" width="120" height="22" fill="none" stroke="#3b82f6" stroke-width="1.5" rx="4"/>
+    <text x="670" y="184" text-anchor="middle" class="golden" fill="#3b82f6">황금 비율</text>
+
+    <!-- Initial up move (left part) -->
+    <polyline
+      points="20,360 120,40"
+      fill="none" stroke="#22c55e" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="20" cy="360" r="5" fill="#22c55e"/>
+    <circle cx="120" cy="40" r="5" fill="#22c55e"/>
+
+    <!-- Retracement down to 61.8% -->
+    <polyline
+      points="120,40 220,162"
+      fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="none"/>
+
+    <!-- Bounce up from 61.8% -->
+    <polyline
+      points="220,162 340,80 420,162 500,40"
+      fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Bounce annotation at 61.8% -->
+    <circle cx="220" cy="162" r="7" fill="none" stroke="#3b82f6" stroke-width="2.5"/>
+    <circle cx="220" cy="162" r="3" fill="#3b82f6"/>
+
+    <!-- Upward bounce arrow -->
+    <line x1="220" y1="177" x2="220" y2="195" stroke="#3b82f6" stroke-width="1.5"/>
+    <polygon points="220,177 216,187 224,187" fill="#3b82f6"/>
+    <text x="230" y="193" class="label-sm" fill="#3b82f6">61.8%에서 반등</text>
+    <text x="230" y="205" class="label-sm" fill="#3b82f6">(Bounce at Golden Ratio)</text>
+
+    <!-- Second touch at 61.8% -->
+    <circle cx="420" cy="162" r="6" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <circle cx="420" cy="162" r="3" fill="#3b82f6"/>
+
+    <!-- Arrow labels for initial move -->
+    <text x="55" y="186" text-anchor="middle" class="label" fill="#22c55e">상승</text>
+    <text x="170" y="108" text-anchor="middle" class="label" fill="#ef4444">되돌림</text>
+
+    <!-- Vertical brace showing retracement range -->
+    <line x1="10" y1="40" x2="10" y2="360" stroke="#6b7280" stroke-width="1.5" opacity="0.5"/>
+    <line x1="6" y1="40" x2="14" y2="40" stroke="#6b7280" stroke-width="1.5" opacity="0.5"/>
+    <line x1="6" y1="360" x2="14" y2="360" stroke="#6b7280" stroke-width="1.5" opacity="0.5"/>
+    <text x="-4" y="205" text-anchor="middle" class="label-sm text-muted" transform="rotate(-90,-4,205)">되돌림 구간</text>
+
+    <!-- Axis -->
+    <line x1="0" y1="380" x2="600" y2="380" class="axis"/>
+    <text x="300" y="398" text-anchor="middle" class="label text-muted">시간 (Time)</text>
+
+    <!-- Legend -->
+    <line x1="0" y1="418" x2="24" y2="418" stroke="#22c55e" stroke-width="3"/>
+    <text x="30" y="422" class="label-sm text">상승 / 반등</text>
+    <line x1="130" y1="418" x2="154" y2="418" stroke="#ef4444" stroke-width="2.5"/>
+    <text x="160" y="422" class="label-sm text">되돌림 (Retracement)</text>
+    <line x1="320" y1="418" x2="344" y2="418" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,3"/>
+    <text x="350" y="422" class="label-sm" fill="#3b82f6">61.8% 황금 비율 (Golden Ratio)</text>
+  </g>
+</svg>

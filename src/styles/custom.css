@@ -1,0 +1,60 @@
+@import 'katex/dist/katex.min.css';
+
+/* Starlight theme overrides */
+
+/* Full-width escape hatch for ChartPlayground */
+.chart-playground-wrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Responsive tables for mobile */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Progress tracker sidebar integration */
+.progress-check {
+  color: var(--sl-color-green);
+  margin-right: 0.25rem;
+  font-size: 0.85em;
+}
+
+/* Korean typography optimization */
+:root {
+  --sl-font: 'Pretendard Variable', 'Pretendard', -apple-system,
+    BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI',
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  --sl-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Concept card styling */
+.concept-card {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: var(--sl-color-gray-7);
+}
+
+.concept-card summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+
+.concept-card[open] summary {
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--sl-color-gray-5);
+  padding-bottom: 0.5rem;
+}
+
+/* KaTeX font scoping: protect Korean typography */
+.katex .text {
+  font-family: var(--sl-font) !important;
+}

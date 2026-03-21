@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420">
+  <style>
+    .label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 12px; }
+    .label-sm { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; }
+    .title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700; }
+    .zone-label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 700; }
+
+    .bg { fill: #ffffff; }
+    .text { fill: #374151; }
+    .text-muted { fill: #6b7280; }
+    .axis { stroke: #d1d5db; stroke-width: 1; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .text { fill: #e2e8f0; }
+      .text-muted { fill: #94a3b8; }
+      .axis { stroke: #334155; }
+    }
+  </style>
+
+  <rect width="800" height="420" class="bg" rx="8"/>
+  <text x="400" y="32" text-anchor="middle" class="title text">지지선과 저항선 (Support &amp; Resistance)</text>
+
+  <!-- Chart area -->
+  <g transform="translate(40, 50)">
+
+    <!-- Resistance zone fill -->
+    <rect x="0" y="58" width="580" height="18" fill="#ef4444" opacity="0.08"/>
+    <!-- Support zone fill -->
+    <rect x="0" y="268" width="580" height="18" fill="#22c55e" opacity="0.08"/>
+
+    <!-- Resistance line -->
+    <line x1="0" y1="67" x2="580" y2="67" stroke="#ef4444" stroke-width="2" stroke-dasharray="10,5"/>
+    <!-- Support line -->
+    <line x1="0" y1="277" x2="580" y2="277" stroke="#22c55e" stroke-width="2" stroke-dasharray="10,5"/>
+
+    <!-- Zone labels -->
+    <text x="590" y="71" class="zone-label" fill="#ef4444">저항선</text>
+    <text x="590" y="84" class="label" fill="#ef4444">(Resistance)</text>
+    <text x="590" y="281" class="zone-label" fill="#22c55e">지지선</text>
+    <text x="590" y="294" class="label" fill="#22c55e">(Support)</text>
+
+    <!-- Price path: bouncing between support and resistance, then breakout -->
+    <!-- Segment 1: rise from support to resistance -->
+    <polyline
+      points="20,277 80,67 140,277 200,67 260,277 320,145 380,67 440,67 480,30 540,10"
+      fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Touch points at resistance -->
+    <circle cx="80" cy="67" r="5" fill="#ef4444"/>
+    <circle cx="200" cy="67" r="5" fill="#ef4444"/>
+    <circle cx="380" cy="67" r="5" fill="#ef4444"/>
+
+    <!-- Touch points at support -->
+    <circle cx="20" cy="277" r="5" fill="#22c55e"/>
+    <circle cx="140" cy="277" r="5" fill="#22c55e"/>
+    <circle cx="260" cy="277" r="5" fill="#22c55e"/>
+
+    <!-- Downward arrows at resistance bounces -->
+    <!-- Arrow at (80, 67) -->
+    <line x1="80" y1="52" x2="80" y2="40" stroke="#ef4444" stroke-width="1.5"/>
+    <polygon points="80,52 76,42 84,42" fill="#ef4444"/>
+
+    <!-- Arrow at (200, 67) -->
+    <line x1="200" y1="52" x2="200" y2="40" stroke="#ef4444" stroke-width="1.5"/>
+    <polygon points="200,52 196,42 204,42" fill="#ef4444"/>
+
+    <!-- Upward arrows at support bounces -->
+    <!-- Arrow at (140, 277) -->
+    <line x1="140" y1="292" x2="140" y2="304" stroke="#22c55e" stroke-width="1.5"/>
+    <polygon points="140,292 136,302 144,302" fill="#22c55e"/>
+
+    <!-- Arrow at (260, 277) -->
+    <line x1="260" y1="292" x2="260" y2="304" stroke="#22c55e" stroke-width="1.5"/>
+    <polygon points="260,292 256,302 264,302" fill="#22c55e"/>
+
+    <!-- Breakout annotation -->
+    <line x1="380" y1="67" x2="440" y2="67" stroke="#ef4444" stroke-width="2" stroke-dasharray="10,5"/>
+    <!-- Breakout arrow (upward through resistance) -->
+    <line x1="440" y1="80" x2="440" y2="55" stroke="#3b82f6" stroke-width="2"/>
+    <polygon points="440,55 436,65 444,65" fill="#3b82f6"/>
+
+    <!-- Breakout label box -->
+    <rect x="448" y="30" width="100" height="28" fill="#3b82f6" rx="4" opacity="0.15"/>
+    <rect x="448" y="30" width="100" height="28" fill="none" stroke="#3b82f6" stroke-width="1.5" rx="4"/>
+    <text x="498" y="43" text-anchor="middle" class="label" fill="#3b82f6">돌파</text>
+    <text x="498" y="54" text-anchor="middle" class="label-sm" fill="#3b82f6">(Breakout)</text>
+
+    <!-- Axis line -->
+    <line x1="0" y1="340" x2="580" y2="340" class="axis"/>
+    <line x1="0" y1="0" x2="0" y2="340" class="axis"/>
+
+    <!-- Y-axis label -->
+    <text x="-10" y="175" text-anchor="middle" class="label text-muted" transform="rotate(-90, -10, 175)">가격 (Price)</text>
+
+    <!-- X-axis label -->
+    <text x="290" y="358" text-anchor="middle" class="label text-muted">시간 (Time)</text>
+
+    <!-- Legend -->
+    <line x1="0" y1="385" x2="30" y2="385" stroke="#ef4444" stroke-width="2" stroke-dasharray="8,4"/>
+    <text x="36" y="389" class="label text">저항선 (Resistance)</text>
+    <line x1="200" y1="385" x2="230" y2="385" stroke="#22c55e" stroke-width="2" stroke-dasharray="8,4"/>
+    <text x="236" y="389" class="label text">지지선 (Support)</text>
+    <line x1="400" y1="385" x2="430" y2="385" stroke="#3b82f6" stroke-width="2.5"/>
+    <text x="436" y="389" class="label text">가격 / 돌파</text>
+  </g>
+</svg>

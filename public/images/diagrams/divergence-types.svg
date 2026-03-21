@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+  <style>
+    .label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 12px; }
+    .label-sm { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; }
+    .title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700; }
+    .panel-title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 12px; font-weight: 700; }
+    .sub-label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; font-weight: 600; }
+
+    .bg { fill: #ffffff; }
+    .panel-bg { fill: #f9fafb; }
+    .text { fill: #374151; }
+    .text-muted { fill: #6b7280; }
+    .divider-h { stroke: #e5e7eb; stroke-width: 1.5; }
+    .divider-v { stroke: #e5e7eb; stroke-width: 1.5; }
+    .sep { stroke: #d1d5db; stroke-width: 1; stroke-dasharray: 3,3; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .panel-bg { fill: #1e293b; }
+      .text { fill: #e2e8f0; }
+      .text-muted { fill: #94a3b8; }
+      .divider-h { stroke: #334155; }
+      .divider-v { stroke: #334155; }
+      .sep { stroke: #334155; }
+    }
+  </style>
+
+  <rect width="900" height="520" class="bg" rx="8"/>
+  <text x="450" y="28" text-anchor="middle" class="title text">다이버전스 유형 (Divergence Types)</text>
+
+  <!-- Grid dividers -->
+  <line x1="450" y1="42" x2="450" y2="510" class="divider-v"/>
+  <line x1="20" y1="278" x2="880" y2="278" class="divider-h"/>
+
+  <!-- ============================================================ -->
+  <!-- TOP-LEFT: Regular Bullish Divergence -->
+  <!-- ============================================================ -->
+  <g transform="translate(20, 42)">
+    <rect x="0" y="0" width="420" height="228" class="panel-bg" rx="6"/>
+
+    <!-- Panel title -->
+    <text x="210" y="18" text-anchor="middle" class="panel-title" fill="#22c55e">일반 상승 다이버전스</text>
+    <text x="210" y="30" text-anchor="middle" class="label-sm text-muted">(Regular Bullish Divergence)</text>
+
+    <!-- Price chart (top section) -->
+    <text x="8" y="48" class="label-sm text-muted">가격 (Price)</text>
+    <line x1="8" y1="52" x2="408" y2="52" class="sep"/>
+    <!-- Price: Lower Low — LL1 at left, LL2 (lower) at right -->
+    <polyline points="30,80 90,58 150,100 210,65 270,110 330,140 380,90" fill="none" stroke="#6b7280" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Mark two lows -->
+    <circle cx="150" cy="100" r="4" fill="#ef4444"/>
+    <circle cx="330" cy="140" r="4" fill="#ef4444"/>
+    <!-- Trend line (price: lower low) -->
+    <line x1="150" y1="100" x2="330" y2="140" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="148" y="95" text-anchor="end" class="label-sm" fill="#ef4444">LL</text>
+    <text x="338" y="155" class="label-sm" fill="#ef4444">LL (lower)</text>
+
+    <!-- Separator -->
+    <line x1="8" y1="158" x2="408" y2="158" class="sep"/>
+
+    <!-- Indicator chart (bottom section) -->
+    <text x="8" y="172" class="label-sm text-muted">지표 (RSI)</text>
+    <line x1="8" y1="176" x2="408" y2="176" class="sep"/>
+    <!-- RSI: Higher Low — HL -->
+    <polyline points="30,210 90,195 150,208 210,192 270,200 330,188 380,195" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,3"/>
+    <!-- Mark two lows -->
+    <circle cx="150" cy="208" r="4" fill="#22c55e"/>
+    <circle cx="330" cy="188" r="4" fill="#22c55e"/>
+    <!-- Trend line (RSI: higher low) -->
+    <line x1="150" y1="208" x2="330" y2="188" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="148" y="222" text-anchor="end" class="label-sm" fill="#22c55e">HL</text>
+    <text x="338" y="184" class="label-sm" fill="#22c55e">HL (higher)</text>
+
+    <!-- Vertical guide lines at divergence points -->
+    <line x1="150" y1="95" x2="150" y2="202" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+    <line x1="330" y1="130" x2="330" y2="182" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+    <!-- Signal label -->
+    <rect x="280" y="4" width="132" height="22" fill="#22c55e" opacity="0.15" rx="3"/>
+    <text x="346" y="19" text-anchor="middle" class="sub-label" fill="#22c55e">상승 신호 (Bullish)</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- TOP-RIGHT: Regular Bearish Divergence -->
+  <!-- ============================================================ -->
+  <g transform="translate(460, 42)">
+    <rect x="0" y="0" width="420" height="228" class="panel-bg" rx="6"/>
+
+    <text x="210" y="18" text-anchor="middle" class="panel-title" fill="#ef4444">일반 하락 다이버전스</text>
+    <text x="210" y="30" text-anchor="middle" class="label-sm text-muted">(Regular Bearish Divergence)</text>
+
+    <!-- Price chart -->
+    <text x="8" y="48" class="label-sm text-muted">가격 (Price)</text>
+    <line x1="8" y1="52" x2="408" y2="52" class="sep"/>
+    <!-- Price: Higher High -->
+    <polyline points="30,120 90,140 150,95 210,130 270,80 330,115 380,150" fill="none" stroke="#6b7280" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="150" cy="95" r="4" fill="#22c55e"/>
+    <circle cx="270" cy="80" r="4" fill="#22c55e"/>
+    <line x1="150" y1="95" x2="270" y2="80" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="148" y="90" text-anchor="end" class="label-sm" fill="#22c55e">HH</text>
+    <text x="278" y="76" class="label-sm" fill="#22c55e">HH (higher)</text>
+
+    <!-- Separator -->
+    <line x1="8" y1="158" x2="408" y2="158" class="sep"/>
+
+    <!-- Indicator chart -->
+    <text x="8" y="172" class="label-sm text-muted">지표 (RSI)</text>
+    <line x1="8" y1="176" x2="408" y2="176" class="sep"/>
+    <!-- RSI: Lower High -->
+    <polyline points="30,200 90,205 150,190 210,205 270,200 330,210 380,205" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,3"/>
+    <circle cx="150" cy="190" r="4" fill="#ef4444"/>
+    <circle cx="270" cy="200" r="4" fill="#ef4444"/>
+    <line x1="150" y1="190" x2="270" y2="200" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="148" y="186" text-anchor="end" class="label-sm" fill="#ef4444">LH</text>
+    <text x="278" y="215" class="label-sm" fill="#ef4444">LH (lower)</text>
+
+    <line x1="150" y1="90" x2="150" y2="184" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+    <line x1="270" y1="76" x2="270" y2="194" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+    <rect x="280" y="4" width="132" height="22" fill="#ef4444" opacity="0.15" rx="3"/>
+    <text x="346" y="19" text-anchor="middle" class="sub-label" fill="#ef4444">하락 신호 (Bearish)</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- BOTTOM-LEFT: Hidden Bullish Divergence -->
+  <!-- ============================================================ -->
+  <g transform="translate(20, 288)">
+    <rect x="0" y="0" width="420" height="218" class="panel-bg" rx="6"/>
+
+    <text x="210" y="18" text-anchor="middle" class="panel-title" fill="#22c55e">히든 상승 다이버전스</text>
+    <text x="210" y="30" text-anchor="middle" class="label-sm text-muted">(Hidden Bullish Divergence)</text>
+
+    <!-- Price chart -->
+    <text x="8" y="48" class="label-sm text-muted">가격 (Price)</text>
+    <line x1="8" y1="52" x2="408" y2="52" class="sep"/>
+    <!-- Price: Higher Low -->
+    <polyline points="30,110 90,130 150,105 210,125 270,95 330,115 380,80" fill="none" stroke="#6b7280" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="150" cy="105" r="4" fill="#22c55e"/>
+    <circle cx="270" cy="95" r="4" fill="#22c55e"/>
+    <line x1="150" y1="105" x2="270" y2="95" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="148" y="120" text-anchor="end" class="label-sm" fill="#22c55e">HL</text>
+    <text x="278" y="91" class="label-sm" fill="#22c55e">HL (higher)</text>
+
+    <!-- Separator -->
+    <line x1="8" y1="148" x2="408" y2="148" class="sep"/>
+
+    <!-- Indicator chart -->
+    <text x="8" y="162" class="label-sm text-muted">지표 (RSI)</text>
+    <line x1="8" y1="166" x2="408" y2="166" class="sep"/>
+    <!-- RSI: Lower Low -->
+    <polyline points="30,190 90,195 150,185 210,195 270,198 330,200 380,195" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,3"/>
+    <circle cx="150" cy="185" r="4" fill="#ef4444"/>
+    <circle cx="270" cy="198" r="4" fill="#ef4444"/>
+    <line x1="150" y1="185" x2="270" y2="198" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="148" y="182" text-anchor="end" class="label-sm" fill="#ef4444">LL</text>
+    <text x="278" y="214" class="label-sm" fill="#ef4444">LL (lower)</text>
+
+    <line x1="150" y1="100" x2="150" y2="179" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+    <line x1="270" y1="91" x2="270" y2="192" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+    <rect x="280" y="4" width="132" height="22" fill="#22c55e" opacity="0.15" rx="3"/>
+    <text x="346" y="19" text-anchor="middle" class="sub-label" fill="#22c55e">추세 지속 신호</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- BOTTOM-RIGHT: Hidden Bearish Divergence -->
+  <!-- ============================================================ -->
+  <g transform="translate(460, 288)">
+    <rect x="0" y="0" width="420" height="218" class="panel-bg" rx="6"/>
+
+    <text x="210" y="18" text-anchor="middle" class="panel-title" fill="#ef4444">히든 하락 다이버전스</text>
+    <text x="210" y="30" text-anchor="middle" class="label-sm text-muted">(Hidden Bearish Divergence)</text>
+
+    <!-- Price chart -->
+    <text x="8" y="48" class="label-sm text-muted">가격 (Price)</text>
+    <line x1="8" y1="52" x2="408" y2="52" class="sep"/>
+    <!-- Price: Lower High -->
+    <polyline points="30,80 90,100 150,88 210,105 270,98 330,115 380,130" fill="none" stroke="#6b7280" stroke-width="2" stroke-linejoin="round"/>
+    <circle cx="150" cy="88" r="4" fill="#ef4444"/>
+    <circle cx="270" cy="98" r="4" fill="#ef4444"/>
+    <line x1="150" y1="88" x2="270" y2="98" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="148" y="84" text-anchor="end" class="label-sm" fill="#ef4444">LH</text>
+    <text x="278" y="94" class="label-sm" fill="#ef4444">LH (lower)</text>
+
+    <!-- Separator -->
+    <line x1="8" y1="148" x2="408" y2="148" class="sep"/>
+
+    <!-- Indicator chart -->
+    <text x="8" y="162" class="label-sm text-muted">지표 (RSI)</text>
+    <line x1="8" y1="166" x2="408" y2="166" class="sep"/>
+    <!-- RSI: Higher High -->
+    <polyline points="30,200 90,195 150,198 210,190 270,185 330,192 380,198" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6,3"/>
+    <circle cx="150" cy="198" r="4" fill="#22c55e"/>
+    <circle cx="270" cy="185" r="4" fill="#22c55e"/>
+    <line x1="150" y1="198" x2="270" y2="185" stroke="#22c55e" stroke-width="1.5"/>
+    <text x="148" y="213" text-anchor="end" class="label-sm" fill="#22c55e">HH</text>
+    <text x="278" y="182" class="label-sm" fill="#22c55e">HH (higher)</text>
+
+    <line x1="150" y1="84" x2="150" y2="192" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+    <line x1="270" y1="94" x2="270" y2="179" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+
+    <rect x="280" y="4" width="132" height="22" fill="#ef4444" opacity="0.15" rx="3"/>
+    <text x="346" y="19" text-anchor="middle" class="sub-label" fill="#ef4444">추세 지속 신호</text>
+  </g>
+
+  <!-- Bottom legend -->
+  <g transform="translate(20, 514)">
+    <line x1="0" y1="4" x2="20" y2="4" stroke="#6b7280" stroke-width="2"/>
+    <text x="26" y="8" class="label-sm text">가격 (Price)</text>
+    <line x1="140" y1="4" x2="160" y2="4" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="166" y="8" class="label-sm text">지표 RSI (Indicator)</text>
+    <circle cx="310" cy="4" r="4" fill="#22c55e"/>
+    <text x="320" y="8" class="label-sm" fill="#22c55e">상승 포인트</text>
+    <circle cx="440" cy="4" r="4" fill="#ef4444"/>
+    <text x="450" y="8" class="label-sm" fill="#ef4444">하락 포인트</text>
+  </g>
+</svg>

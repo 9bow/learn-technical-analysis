@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480">
+  <style>
+    .label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 13px; }
+    .label-sm { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 11px; }
+    .title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700; }
+    .subtitle { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 600; }
+
+    .bg { fill: #ffffff; }
+    .text { fill: #374151; }
+    .text-muted { fill: #6b7280; }
+    .grid { stroke: #e5e7eb; }
+    .arrow-line { stroke: #6b7280; stroke-width: 1.5; fill: none; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .text { fill: #e2e8f0; }
+      .text-muted { fill: #94a3b8; }
+      .grid { stroke: #1e293b; }
+      .arrow-line { stroke: #94a3b8; }
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="480" class="bg" rx="8"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" class="title text">캔들스틱 해부도 (Candlestick Anatomy)</text>
+
+  <!-- ===== BULLISH CANDLESTICK (Left) ===== -->
+  <g transform="translate(120, 60)">
+    <text x="80" y="24" text-anchor="middle" class="subtitle" fill="#22c55e">상승 캔들 (Bullish)</text>
+
+    <!-- Wick top -->
+    <line x1="80" y1="50" x2="80" y2="100" stroke="#22c55e" stroke-width="2.5"/>
+    <!-- Body -->
+    <rect x="55" y="100" width="50" height="160" fill="#22c55e" rx="2"/>
+    <!-- Wick bottom -->
+    <line x1="80" y1="260" x2="80" y2="330" stroke="#22c55e" stroke-width="2.5"/>
+
+    <!-- Label: 고가 (High) -->
+    <line x1="90" y1="50" x2="180" y2="50" class="arrow-line"/>
+    <polygon points="90,50 98,46 98,54" fill="#6b7280"/>
+    <text x="185" y="54" class="label text">고가 (High)</text>
+
+    <!-- Label: 윗꼬리 -->
+    <line x1="90" y1="75" x2="180" y2="75" class="arrow-line"/>
+    <polygon points="90,75 98,71 98,79" fill="#6b7280"/>
+    <text x="185" y="79" class="label text">윗꼬리 (Upper Wick)</text>
+
+    <!-- Label: 종가 (Close) - top of body for bullish -->
+    <line x1="55" y1="100" x2="-90" y2="100" class="arrow-line"/>
+    <polygon points="55,100 63,96 63,104" fill="#6b7280"/>
+    <text x="-175" y="104" class="label text">종가 (Close)</text>
+
+    <!-- Label: 몸통 (Body) -->
+    <line x1="105" y1="180" x2="180" y2="180" class="arrow-line"/>
+    <polygon points="105,180 97,176 97,184" fill="#6b7280"/>
+    <text x="185" y="184" class="label text">몸통 (Body)</text>
+
+    <!-- Label: 시가 (Open) - bottom of body for bullish -->
+    <line x1="55" y1="260" x2="-90" y2="260" class="arrow-line"/>
+    <polygon points="55,260 63,256 63,264" fill="#6b7280"/>
+    <text x="-165" y="264" class="label text">시가 (Open)</text>
+
+    <!-- Label: 아랫꼬리 -->
+    <line x1="90" y1="295" x2="180" y2="295" class="arrow-line"/>
+    <polygon points="90,295 98,291 98,299" fill="#6b7280"/>
+    <text x="185" y="299" class="label text">아랫꼬리 (Lower Wick)</text>
+
+    <!-- Label: 저가 (Low) -->
+    <line x1="90" y1="330" x2="180" y2="330" class="arrow-line"/>
+    <polygon points="90,330 98,326 98,334" fill="#6b7280"/>
+    <text x="185" y="334" class="label text">저가 (Low)</text>
+  </g>
+
+  <!-- ===== BEARISH CANDLESTICK (Right) ===== -->
+  <g transform="translate(510, 60)">
+    <text x="80" y="24" text-anchor="middle" class="subtitle" fill="#ef4444">하락 캔들 (Bearish)</text>
+
+    <!-- Wick top -->
+    <line x1="80" y1="50" x2="80" y2="100" stroke="#ef4444" stroke-width="2.5"/>
+    <!-- Body (bearish: open top, close bottom) -->
+    <rect x="55" y="100" width="50" height="160" fill="#ef4444" rx="2"/>
+    <!-- Wick bottom -->
+    <line x1="80" y1="260" x2="80" y2="330" stroke="#ef4444" stroke-width="2.5"/>
+
+    <!-- Label: 고가 -->
+    <line x1="90" y1="50" x2="150" y2="50" class="arrow-line"/>
+    <polygon points="90,50 98,46 98,54" fill="#6b7280"/>
+    <text x="155" y="54" class="label text">고가 (High)</text>
+
+    <!-- Label: 윗꼬리 -->
+    <line x1="90" y1="75" x2="150" y2="75" class="arrow-line"/>
+    <polygon points="90,75 98,71 98,79" fill="#6b7280"/>
+    <text x="155" y="79" class="label text">윗꼬리</text>
+
+    <!-- Label: 시가 (Open) - top of body for bearish -->
+    <line x1="55" y1="100" x2="-100" y2="100" class="arrow-line"/>
+    <polygon points="55,100 63,96 63,104" fill="#6b7280"/>
+    <text x="-185" y="104" class="label text">시가 (Open)</text>
+
+    <!-- Label: 몸통 -->
+    <line x1="105" y1="180" x2="150" y2="180" class="arrow-line"/>
+    <polygon points="105,180 97,176 97,184" fill="#6b7280"/>
+    <text x="155" y="184" class="label text">몸통 (Body)</text>
+
+    <!-- Label: 종가 (Close) - bottom of body for bearish -->
+    <line x1="55" y1="260" x2="-100" y2="260" class="arrow-line"/>
+    <polygon points="55,260 63,256 63,264" fill="#6b7280"/>
+    <text x="-185" y="264" class="label text">종가 (Close)</text>
+
+    <!-- Label: 아랫꼬리 -->
+    <line x1="90" y1="295" x2="150" y2="295" class="arrow-line"/>
+    <polygon points="90,295 98,291 98,299" fill="#6b7280"/>
+    <text x="155" y="299" class="label text">아랫꼬리</text>
+
+    <!-- Label: 저가 -->
+    <line x1="90" y1="330" x2="150" y2="330" class="arrow-line"/>
+    <polygon points="90,330 98,326 98,334" fill="#6b7280"/>
+    <text x="155" y="334" class="label text">저가 (Low)</text>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="400" y="456" text-anchor="middle" class="label-sm text-muted">상승 캔들: 종가 &gt; 시가 | 하락 캔들: 종가 &lt; 시가</text>
+</svg>

@@ -1,0 +1,37 @@
+---
+/**
+ * Starlight SidebarSublist override with progress tracking.
+ * Prototype: renders checkmarks next to completed chapters.
+ * Full implementation will use localStorage via a React island.
+ */
+import type { Props } from '@astrojs/starlight/props';
+import Default from '@astrojs/starlight/components/SidebarSublist.astro';
+---
+
+<Default {...Astro.props}><slot /></Default>
+
+<script>
+  // ProgressTracker: read completion state from localStorage
+  function updateSidebarProgress() {
+    const completed = JSON.parse(localStorage.getItem('ta-progress') || '{}');
+    const links = document.querySelectorAll('[data-pagefind-filter] a, nav.sidebar a, starlight-menu-button + nav a');
+    const sidebarLinks = document.querySelectorAll('nav a[href]');
+
+    sidebarLinks.forEach((link) => {
+      const href = link.getAttribute('href');
+      if (href && completed[href]) {
+        const check = document.createElement('span');
+        check.className = 'progress-check';
+        check.textContent = '✓';
+        check.setAttribute('aria-label', '완료');
+        if (!link.querySelector('.progress-check')) {
+          link.prepend(check);
+        }
+      }
+    });
+  }
+
+  // Run on page load and after Astro view transitions
+  document.addEventListener('astro:page-load', updateSidebarProgress);
+  updateSidebarProgress();
+</script>

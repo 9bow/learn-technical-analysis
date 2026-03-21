@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400">
+  <style>
+    .label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 12px; }
+    .label-sm { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; }
+    .title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700; }
+    .panel-title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 700; }
+    .hh-label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; font-weight: 600; }
+
+    .bg { fill: #ffffff; }
+    .panel-bg { fill: #f9fafb; }
+    .text { fill: #374151; }
+    .text-muted { fill: #6b7280; }
+    .divider { stroke: #e5e7eb; stroke-width: 1; }
+    .axis { stroke: #d1d5db; stroke-width: 1; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .panel-bg { fill: #1e293b; }
+      .text { fill: #e2e8f0; }
+      .text-muted { fill: #94a3b8; }
+      .divider { stroke: #334155; }
+      .axis { stroke: #334155; }
+    }
+  </style>
+
+  <rect width="900" height="400" class="bg" rx="8"/>
+  <text x="450" y="32" text-anchor="middle" class="title text">추세의 종류 (Types of Trends)</text>
+
+  <!-- Panel dividers -->
+  <line x1="300" y1="50" x2="300" y2="390" class="divider"/>
+  <line x1="600" y1="50" x2="600" y2="390" class="divider"/>
+
+  <!-- ===== UPTREND PANEL ===== -->
+  <g transform="translate(0, 50)">
+    <rect x="5" y="5" width="290" height="335" class="panel-bg" rx="6"/>
+    <text x="150" y="30" text-anchor="middle" class="panel-title" fill="#22c55e">상승 추세 (Uptrend)</text>
+
+    <!-- Zigzag uptrend path -->
+    <!-- Points: start low-left, go up with HH and HL pattern -->
+    <polyline
+      points="30,270 80,200 130,230 185,145 230,175 270,90"
+      fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- HH labels (Higher Highs) -->
+    <!-- First peak at (80,200) -->
+    <circle cx="80" cy="200" r="4" fill="#22c55e"/>
+    <text x="65" y="192" text-anchor="middle" class="hh-label" fill="#22c55e">HH</text>
+
+    <!-- Second peak at (185,145) -->
+    <circle cx="185" cy="145" r="4" fill="#22c55e"/>
+    <text x="185" y="137" text-anchor="middle" class="hh-label" fill="#22c55e">HH</text>
+
+    <!-- Third peak at (270,90) -->
+    <circle cx="270" cy="90" r="4" fill="#22c55e"/>
+    <text x="270" y="82" text-anchor="middle" class="hh-label" fill="#22c55e">HH</text>
+
+    <!-- HL labels (Higher Lows) -->
+    <!-- Valley at (130,230) -->
+    <circle cx="130" cy="230" r="4" fill="#3b82f6"/>
+    <text x="130" y="248" text-anchor="middle" class="hh-label" fill="#3b82f6">HL</text>
+
+    <!-- Valley at (230,175) -->
+    <circle cx="230" cy="175" r="4" fill="#3b82f6"/>
+    <text x="230" y="193" text-anchor="middle" class="hh-label" fill="#3b82f6">HL</text>
+
+    <!-- Start point -->
+    <circle cx="30" cy="270" r="4" fill="#3b82f6"/>
+
+    <!-- Trendline -->
+    <line x1="30" y1="270" x2="270" y2="118" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+
+    <!-- Axis -->
+    <line x1="20" y1="290" x2="280" y2="290" class="axis"/>
+
+    <!-- Legend -->
+    <circle cx="40" cy="318" r="5" fill="#22c55e"/>
+    <text x="52" y="322" class="label-sm text">HH = Higher High</text>
+    <circle cx="40" cy="333" r="5" fill="#3b82f6"/>
+    <text x="52" y="337" class="label-sm text">HL = Higher Low</text>
+  </g>
+
+  <!-- ===== DOWNTREND PANEL ===== -->
+  <g transform="translate(300, 50)">
+    <rect x="5" y="5" width="290" height="335" class="panel-bg" rx="6"/>
+    <text x="150" y="30" text-anchor="middle" class="panel-title" fill="#ef4444">하락 추세 (Downtrend)</text>
+
+    <!-- Zigzag downtrend path -->
+    <polyline
+      points="30,80 80,145 130,115 185,200 230,170 270,250"
+      fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- LH labels (Lower Highs) -->
+    <!-- Peak at (30,80) -->
+    <circle cx="30" cy="80" r="4" fill="#ef4444"/>
+
+    <!-- Peak at (80,145) - first labeled LH -->
+    <circle cx="80" cy="145" r="4" fill="#ef4444"/>
+    <text x="80" y="137" text-anchor="middle" class="hh-label" fill="#ef4444">LH</text>
+
+    <!-- Valley (130,115) -->
+    <circle cx="130" cy="115" r="4" fill="#ef4444"/>
+    <text x="130" y="107" text-anchor="middle" class="hh-label" fill="#ef4444">LH</text>
+
+    <!-- Peak at (185,200) - lower high -->
+    <!-- LL labels -->
+    <circle cx="185" cy="200" r="4" fill="#6b7280"/>
+    <text x="185" y="218" text-anchor="middle" class="hh-label" fill="#6b7280">LL</text>
+
+    <!-- Valley (230,170) -->
+    <circle cx="230" cy="170" r="4" fill="#ef4444"/>
+    <text x="230" y="162" text-anchor="middle" class="hh-label" fill="#ef4444">LH</text>
+
+    <!-- End at (270,250) -->
+    <circle cx="270" cy="250" r="4" fill="#6b7280"/>
+    <text x="270" y="268" text-anchor="middle" class="hh-label" fill="#6b7280">LL</text>
+
+    <!-- Trendline -->
+    <line x1="30" y1="80" x2="270" y2="214" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.6"/>
+
+    <!-- Axis -->
+    <line x1="20" y1="290" x2="280" y2="290" class="axis"/>
+
+    <!-- Legend -->
+    <circle cx="40" cy="318" r="5" fill="#ef4444"/>
+    <text x="52" y="322" class="label-sm text">LH = Lower High</text>
+    <circle cx="40" cy="333" r="5" fill="#6b7280"/>
+    <text x="52" y="337" class="label-sm text">LL = Lower Low</text>
+  </g>
+
+  <!-- ===== SIDEWAYS PANEL ===== -->
+  <g transform="translate(600, 50)">
+    <rect x="5" y="5" width="290" height="335" class="panel-bg" rx="6"/>
+    <text x="150" y="30" text-anchor="middle" class="panel-title" fill="#6b7280">횡보 (Sideways)</text>
+
+    <!-- Resistance line -->
+    <line x1="20" y1="130" x2="275" y2="130" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="8,4"/>
+    <text x="278" y="134" class="label-sm" fill="#ef4444">저항</text>
+
+    <!-- Support line -->
+    <line x1="20" y1="240" x2="275" y2="240" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="8,4"/>
+    <text x="278" y="244" class="label-sm" fill="#22c55e">지지</text>
+
+    <!-- Zigzag sideways path -->
+    <polyline
+      points="30,240 70,130 110,230 155,135 200,235 240,132 270,230"
+      fill="none" stroke="#6b7280" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Touch points -->
+    <circle cx="30" cy="240" r="3.5" fill="#22c55e"/>
+    <circle cx="70" cy="130" r="3.5" fill="#ef4444"/>
+    <circle cx="110" cy="230" r="3.5" fill="#22c55e"/>
+    <circle cx="155" cy="135" r="3.5" fill="#ef4444"/>
+    <circle cx="200" cy="235" r="3.5" fill="#22c55e"/>
+    <circle cx="240" cy="132" r="3.5" fill="#ef4444"/>
+    <circle cx="270" cy="230" r="3.5" fill="#22c55e"/>
+
+    <!-- Axis -->
+    <line x1="20" y1="290" x2="280" y2="290" class="axis"/>
+
+    <!-- Legend -->
+    <line x1="30" y1="320" x2="50" y2="320" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="56" y="324" class="label-sm text">저항선 (Resistance)</text>
+    <line x1="30" y1="336" x2="50" y2="336" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="56" y="340" class="label-sm text">지지선 (Support)</text>
+  </g>
+</svg>

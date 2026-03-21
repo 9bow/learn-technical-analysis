@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <style>
+    .label { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 12px; }
+    .label-sm { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 10px; }
+    .title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 16px; font-weight: 700; }
+    .panel-title { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 700; }
+
+    .bg { fill: #ffffff; }
+    .panel-bg { fill: #f9fafb; }
+    .divider { stroke: #e5e7eb; stroke-width: 1.5; }
+    .text { fill: #374151; }
+    .text-muted { fill: #6b7280; }
+    .axis { stroke: #d1d5db; stroke-width: 1; }
+
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0f172a; }
+      .panel-bg { fill: #1e293b; }
+      .divider { stroke: #334155; }
+      .text { fill: #e2e8f0; }
+      .text-muted { fill: #94a3b8; }
+      .axis { stroke: #334155; }
+    }
+  </style>
+
+  <rect width="800" height="500" class="bg" rx="8"/>
+  <text x="400" y="30" text-anchor="middle" class="title text">이중 천장 &amp; 이중 바닥 (Double Top &amp; Double Bottom)</text>
+
+  <!-- Divider between panels -->
+  <line x1="30" y1="250" x2="770" y2="250" class="divider"/>
+
+  <!-- ===== DOUBLE TOP (upper half) ===== -->
+  <g transform="translate(40, 45)">
+    <rect x="0" y="0" width="720" height="192" class="panel-bg" rx="6"/>
+    <text x="360" y="20" text-anchor="middle" class="panel-title" fill="#ef4444">이중 천장 (Double Top) — 하락 반전</text>
+
+    <!-- Price path -->
+    <polyline
+      points="20,160 80,160 130,60 180,110 230,60 280,110 330,155 400,170 460,185"
+      fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Two peaks -->
+    <circle cx="130" cy="60" r="5" fill="#ef4444"/>
+    <text x="130" y="48" text-anchor="middle" class="label" fill="#ef4444">①</text>
+
+    <circle cx="230" cy="60" r="5" fill="#ef4444"/>
+    <text x="230" y="48" text-anchor="middle" class="label" fill="#ef4444">②</text>
+
+    <!-- Valley between peaks -->
+    <circle cx="180" cy="110" r="4" fill="#6b7280"/>
+
+    <!-- Neckline at valley level -->
+    <line x1="60" y1="110" x2="420" y2="110" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="7,4"/>
+    <text x="425" y="114" class="label text-muted">넥라인</text>
+
+    <!-- Breakdown below neckline -->
+    <line x1="330" y1="110" x2="460" y2="185" stroke="#ef4444" stroke-width="2.5"/>
+    <circle cx="460" cy="185" r="4" fill="#ef4444"/>
+
+    <!-- Breakdown arrow -->
+    <line x1="350" y1="95" x2="350" y2="76" stroke="#ef4444" stroke-width="1.5"/>
+    <polygon points="350,110 346,100 354,100" fill="#ef4444"/>
+    <text x="355" y="92" class="label-sm" fill="#ef4444">돌파 (Breakdown)</text>
+
+    <!-- Target measurement -->
+    <line x1="460" y1="110" x2="460" y2="185" stroke="#6b7280" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+    <line x1="450" y1="185" x2="470" y2="185" stroke="#6b7280" stroke-width="1.5"/>
+    <text x="475" y="189" class="label-sm" fill="#6b7280">목표가 (Target)</text>
+
+    <!-- Trade markers -->
+    <!-- Entry -->
+    <rect x="340" y="114" width="38" height="16" fill="#3b82f6" opacity="0.15" rx="3"/>
+    <rect x="340" y="114" width="38" height="16" fill="none" stroke="#3b82f6" stroke-width="1" rx="3"/>
+    <text x="359" y="125" text-anchor="middle" class="label-sm" fill="#3b82f6">진입</text>
+
+    <!-- Stop loss above neckline/peaks -->
+    <line x1="200" y1="52" x2="260" y2="52" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="265" y="56" class="label-sm" fill="#ef4444">손절 (Stop)</text>
+
+    <!-- Axis -->
+    <line x1="0" y1="185" x2="480" y2="185" class="axis"/>
+  </g>
+
+  <!-- ===== DOUBLE BOTTOM (lower half) ===== -->
+  <g transform="translate(40, 255)">
+    <rect x="0" y="0" width="720" height="210" class="panel-bg" rx="6"/>
+    <text x="360" y="20" text-anchor="middle" class="panel-title" fill="#22c55e">이중 바닥 (Double Bottom) — 상승 반전</text>
+
+    <!-- Price path -->
+    <polyline
+      points="20,50 80,50 130,150 180,95 230,150 280,95 330,55 400,40 460,25"
+      fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linejoin="round"/>
+
+    <!-- Two valleys -->
+    <circle cx="130" cy="150" r="5" fill="#22c55e"/>
+    <text x="130" y="167" text-anchor="middle" class="label" fill="#22c55e">①</text>
+
+    <circle cx="230" cy="150" r="5" fill="#22c55e"/>
+    <text x="230" y="167" text-anchor="middle" class="label" fill="#22c55e">②</text>
+
+    <!-- Peak between valleys -->
+    <circle cx="180" cy="95" r="4" fill="#6b7280"/>
+
+    <!-- Neckline at peak level -->
+    <line x1="60" y1="95" x2="420" y2="95" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="7,4"/>
+    <text x="425" y="99" class="label text-muted">넥라인</text>
+
+    <!-- Breakout above neckline -->
+    <line x1="280" y1="95" x2="460" y2="25" stroke="#22c55e" stroke-width="2.5"/>
+    <circle cx="460" cy="25" r="4" fill="#22c55e"/>
+
+    <!-- Breakout arrow -->
+    <line x1="315" y1="95" x2="315" y2="78" stroke="#22c55e" stroke-width="1.5"/>
+    <polygon points="315,78 311,88 319,88" fill="#22c55e"/>
+    <text x="320" y="74" class="label-sm" fill="#22c55e">돌파 (Breakout)</text>
+
+    <!-- Target measurement -->
+    <line x1="460" y1="25" x2="460" y2="95" stroke="#6b7280" stroke-width="1" stroke-dasharray="4,3" opacity="0.7"/>
+    <line x1="450" y1="25" x2="470" y2="25" stroke="#6b7280" stroke-width="1.5"/>
+    <text x="475" y="29" class="label-sm" fill="#6b7280">목표가 (Target)</text>
+
+    <!-- Trade markers -->
+    <!-- Entry -->
+    <rect x="300" y="79" width="38" height="16" fill="#3b82f6" opacity="0.15" rx="3"/>
+    <rect x="300" y="79" width="38" height="16" fill="none" stroke="#3b82f6" stroke-width="1" rx="3"/>
+    <text x="319" y="91" text-anchor="middle" class="label-sm" fill="#3b82f6">진입</text>
+
+    <!-- Stop loss below valleys -->
+    <line x1="200" y1="162" x2="260" y2="162" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="265" y="166" class="label-sm" fill="#ef4444">손절 (Stop)</text>
+
+    <!-- Axis -->
+    <line x1="0" y1="185" x2="480" y2="185" class="axis"/>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(40, 478)">
+    <rect x="0" y="0" width="8" height="8" fill="#ef4444" rx="1"/>
+    <text x="14" y="9" class="label-sm text">하락 반전 패턴</text>
+    <rect x="160" y="0" width="8" height="8" fill="#22c55e" rx="1"/>
+    <text x="174" y="9" class="label-sm text">상승 반전 패턴</text>
+    <rect x="320" y="0" width="8" height="8" fill="#3b82f6" rx="1"/>
+    <text x="334" y="9" class="label-sm text">진입 (Entry)</text>
+    <line x1="460" y1="4" x2="476" y2="4" stroke="#6b7280" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="482" y="9" class="label-sm text">넥라인</text>
+  </g>
+</svg>
