@@ -1,5 +1,5 @@
 {
-  "name": "astro-temp",
+  "name": "learn-technical-analysis",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -13,8 +13,6 @@
     "@astrojs/react": "^5.0.1",
     "@astrojs/starlight": "^0.38.2",
     "@tailwindcss/vite": "^4.2.2",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
     "astro": "^6.0.1",
     "katex": "^0.16.40",
     "lightweight-charts": "^5.1.0",
@@ -24,5 +22,9 @@
     "remark-math": "^6.0.0",
     "sharp": "^0.34.2",
     "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
   }
 }

@@ -8,7 +8,7 @@ import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
   site: 'https://9bow.github.io',
-  base: '/technical-analysis',
+  base: '/learn-technical-analysis',
   integrations: [
     starlight({
       title: '기술적 분석 학습',
@@ -20,7 +20,7 @@ export default defineConfig({
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/9bow/technical-analysis',
+          href: 'https://github.com/9bow/learn-technical-analysis',
         },
       ],
       sidebar: [
