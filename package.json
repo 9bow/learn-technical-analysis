@@ -12,7 +12,6 @@
   "dependencies": {
     "@astrojs/react": "^5.0.1",
     "@astrojs/starlight": "^0.38.2",
-    "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.0.1",
     "katex": "^0.16.40",
     "lightweight-charts": "^5.1.0",
@@ -20,11 +19,16 @@
     "react-dom": "^19.2.4",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "sharp": "^0.34.2",
-    "tailwindcss": "^4.2.2"
+    "sharp": "^0.34.2"
   },
   "devDependencies": {
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "picomatch": ">=4.0.4",
+      "smol-toml": ">=1.6.1"
+    }
   }
 }

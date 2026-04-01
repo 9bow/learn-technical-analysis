@@ -72,7 +72,4 @@ export default defineConfig({
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
   },
-  vite: {
-    plugins: [],
-  },
 });
