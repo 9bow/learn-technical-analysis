@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import react from '@astrojs/react';
-import tailwindcss from '@tailwindcss/vite';
+
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
@@ -73,6 +73,6 @@ export default defineConfig({
     rehypePlugins: [rehypeKatex],
   },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [],
   },
 });
