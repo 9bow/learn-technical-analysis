@@ -11,6 +11,16 @@ export default defineConfig({
   base: '/learn-technical-analysis',
   integrations: [
     starlight({
+      head: [
+        {
+          tag: 'script',
+          attrs: { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-K81LK65G9B' },
+        },
+        {
+          tag: 'script',
+          content: `window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-K81LK65G9B');`,
+        },
+      ],
       title: '기술적 분석 학습',
       defaultLocale: 'root',
       locales: {
