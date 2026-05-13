@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/react": "^5.0.1",
     "@astrojs/starlight": "^0.38.2",
-    "astro": "^6.0.1",
+    "astro": "^6.1.10",
     "katex": "^0.16.40",
     "lightweight-charts": "^5.1.0",
     "react": "^19.2.4",
