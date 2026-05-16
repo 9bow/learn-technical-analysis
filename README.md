@@ -1,49 +1,51 @@
-# Starlight Starter Kit: Basics
+# 기술적 분석 학습
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+주식 및 가상자산 기술적 분석을 기초부터 고급 기법, 리스크 관리, 퀀트 전략까지 체계적으로 학습할 수 있는 한국어 교육 사이트입니다. 차트 예제와 지표 계산, 패턴 다이어그램, 인터랙티브 컴포넌트를 함께 제공합니다.
 
+## 대상
+
+- 차트 읽기, 추세, 지지/저항, 거래량 해석을 처음 배우는 학습자
+- RSI, MACD, 볼린저 밴드, 일목균형표, 피보나치 같은 지표를 비교하고 싶은 투자자
+- 기술적 분석을 리스크 관리와 전략 검증 관점까지 확장하려는 사용자
+
+이 사이트는 교육 목적의 자료이며, 특정 종목 또는 자산에 대한 투자 자문이 아닙니다.
+
+## 구성
+
+- 9개 섹션
+- 58개 MDX 챕터
+- 9개 섹션별 퀴즈
+- Lightweight Charts 기반 차트 컴포넌트 포함
+- 패턴 및 지표 다이어그램 SVG 포함
+- Astro 6 + Starlight + React 기반
+- 수식 렌더링을 위한 KaTeX 설정 포함
+
+## 커리큘럼
+
+1. 기초: 기술적 분석 정의, 차트 종류, 캔들, 타임프레임, 지지/저항, 거래량
+2. 추세 분석: 추세 식별, 추세선, 이동평균선, MACD, ADX, Parabolic SAR
+3. 차트 패턴: 반전, 지속, 양방향 패턴과 갭 분석
+4. 보조 지표: RSI, 스토캐스틱, 볼린저 밴드, ATR, OBV 등
+5. 캔들스틱 패턴: 단일, 이중, 삼중 캔들 조합
+6. 고급 기법: 피보나치, 엘리어트 파동, 일목균형표, 하모닉, Wyckoff, 시장 구조
+7. 리스크 관리: 포지션 사이징, 손절, 손익비, 포트폴리오, 매매 일지, 심리
+8. 가상자산: 온체인, 펀딩비, 청산 레벨, 거래소 데이터
+9. 퀀트 전략: 추세추종, 평균회귀, 모멘텀, 변동성, 브레이크아웃, 멀티팩터
+
+## 로컬 개발
+
+```bash
+pnpm install
+pnpm dev
+pnpm build
+pnpm preview
 ```
-pnpm create astro@latest -- --template starlight
-```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## 주요 경로
 
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
-
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
-
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
-
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+- 문서 본문: `src/content/docs/`
+- 퀴즈 데이터: `public/data/quiz/`
+- 차트 컴포넌트: `src/components/charts/`
+- 지표 계산 로직: `src/lib/indicators.ts`
+- 다이어그램 자산: `public/images/diagrams/`
+- 사이트 설정: `astro.config.mjs`
