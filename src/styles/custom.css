@@ -31,6 +31,12 @@
     'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
   --sl-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  /* 본문 영역 확장 (기본 45rem은 한국어 학습 콘텐츠에 좁음) */
+  --sl-content-width: 60rem;
+}
+
+@media (min-width: 100rem) {
+  :root { --sl-content-width: 72rem; }
 }
 
 /* Concept card styling */
