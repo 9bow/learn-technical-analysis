@@ -3,11 +3,23 @@ title: 변동성 전략
 description: 볼린저 스퀴즈, ATR 포지션, VIX 기반 변동성 자동매매 전략
 sidebar:
   order: 5
+learning_objectives:
+  - ATR·밴드폭·VIX가 측정하는 변동성의 차이를 설명할 수 있다
+  - 변동성 기반 포지션 크기를 계산할 수 있다
+  - 변동성 수축이 방향을 예측하지 않는다는 한계를 설명할 수 있다
+estimated_minutes: 55
+references:
+  - title: "Cboe Volatility Index Mathematics Methodology"
+    url: "https://cdn.cboe.com/api/global/us_indices/governance/VIX_Methodology.pdf"
+    accessed: "2026-07-24"
+  - title: "Hypothetical performance and backtesting limitations"
+    url: "https://www.sec.gov/Archives/edgar/data/19617/000121390025117998/ea0268449-01_424b2.htm"
+    accessed: "2026-07-24"
 ---
 
 import CandlestickDemo from '../../../components/charts/CandlestickDemo';
 
-변동성은 가격 움직임의 크기를 나타냅니다. 변동성이 낮으면 시장은 에너지를 축적하고, 높으면 에너지를 방출합니다. 이 사이클을 체계적으로 포착하는 네 가지 전략을 소개합니다.
+변동성은 가격 움직임의 크기를 나타냅니다. 낮은 변동성 뒤에 변동성이 확대되는 경우가 있지만, "에너지가 축적된다"는 표현은 비유일 뿐 방향이나 시점을 보장하는 법칙이 아닙니다. 이 장에서는 변동성 수준을 규칙으로 측정하고 손실 한도를 통제하는 네 가지 전략을 소개합니다.
 
 ---
 
@@ -15,7 +27,7 @@ import CandlestickDemo from '../../../components/charts/CandlestickDemo';
 
 ### 개요
 
-볼린저 밴드 스퀴즈는 **밴드 폭(Bandwidth)** 이 장기 최저 수준으로 수축한 뒤 가격이 한 방향으로 폭발적으로 움직이는 현상을 포착하는 전략입니다. 변동성 수축(스퀴즈) 후 반드시 확장이 뒤따른다는 원칙에 기반합니다.
+볼린저 밴드 스퀴즈는 **밴드 폭(Bandwidth)** 이 과거 구간보다 낮아진 뒤 변동성이 확대되는지를 관찰하는 전략입니다. 수축 뒤 확장이 즉시 또는 반드시 발생하는 것은 아니며, 밴드 폭만으로 상승·하락 방향을 예측할 수도 없습니다.
 
 <CandlestickDemo client:visible dataset="default" title="볼린저 밴드 스퀴즈 예시" />
 

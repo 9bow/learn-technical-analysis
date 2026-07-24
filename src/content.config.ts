@@ -12,11 +12,14 @@ export const collections = {
         estimated_minutes: z.number().int().positive().optional(),
         references: z
           .array(
-            z.object({
+            z.union([
+              z.string().url(),
+              z.object({
               title: z.string(),
               url: z.string().url(),
               accessed: z.string().optional(),
-            }),
+              }),
+            ]),
           )
           .min(1)
           .optional(),

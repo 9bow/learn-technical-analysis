@@ -3,11 +3,23 @@ title: 모멘텀 전략
 description: RSI, MACD, ROC 기반 추세 모멘텀 자동매매 전략
 sidebar:
   order: 1
+learning_objectives:
+  - 모멘텀과 역추세 규칙의 차이를 설명할 수 있다
+  - RSI·MACD·ROC 신호를 재현 가능한 규칙으로 표현할 수 있다
+  - 거래비용과 표본외 검증을 포함해 전략을 평가할 수 있다
+estimated_minutes: 55
+references:
+  - title: "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency"
+    url: "https://doi.org/10.1111/j.1540-6261.1993.tb04702.x"
+    accessed: "2026-07-24"
+  - title: "Time Series Momentum"
+    url: "https://doi.org/10.1016/j.jfineco.2011.11.003"
+    accessed: "2026-07-24"
 ---
 
 ## 모멘텀 전략이란?
 
-모멘텀(Momentum)은 "오르는 자산은 계속 오르고, 내리는 자산은 계속 내린다"는 관성의 원리를 시장에 적용한 개념입니다. 행동재무학 연구(Jegadeesh & Titman, 1993)에서 처음 정량화된 이후, 모멘텀은 **가장 강력하고 지속적인 시장 이상 현상(anomaly)** 중 하나로 인정받고 있습니다.
+모멘텀(Momentum)은 과거 수익률의 방향이 일정 기간 이어지는지를 규칙으로 측정하는 접근입니다. Jegadeesh와 Titman(1993)은 미국 주식의 횡단면 모멘텀을 체계적으로 검증했지만, 이 결과가 모든 시장·기간·비용 조건에서 그대로 재현된다는 뜻은 아닙니다. 실제 전략은 표본외 기간, 거래비용, 공매도 가능 여부를 별도로 검증해야 합니다.
 
 모멘텀 전략은 크게 두 가지로 나뉩니다:
 

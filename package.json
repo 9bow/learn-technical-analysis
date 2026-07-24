@@ -10,25 +10,27 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^5.0.1",
-    "@astrojs/starlight": "^0.38.2",
-    "astro": "^6.0.1",
+    "@astrojs/react": "^5.0.7",
+    "@astrojs/starlight": "^0.38.5",
+    "astro": "^6.4.8",
     "katex": "^0.16.40",
     "lightweight-charts": "^5.1.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0",
-    "sharp": "^0.34.2"
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
+    "@types/node": "^22.20.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3"
   },
   "pnpm": {
     "overrides": {
       "picomatch": ">=4.0.4",
-      "smol-toml": ">=1.6.1"
+      "smol-toml": ">=1.6.1",
+      "sharp": "^0.35.3"
     }
   }
 }

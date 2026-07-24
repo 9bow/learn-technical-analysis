@@ -3,11 +3,23 @@ title: 다중 요소 전략
 description: 삼중 필터, 일목균형표, VWAP+RSI 등 다중 지표 결합 자동매매 전략
 sidebar:
   order: 6
+learning_objectives:
+  - 서로 다른 정보 범주의 필터를 중복 없이 조합할 수 있다
+  - 필터 추가가 거래 빈도와 과최적화 위험에 미치는 영향을 설명할 수 있다
+  - 다중 요소 전략을 표본외 데이터로 검증할 수 있다
+estimated_minutes: 55
+references:
+  - title: "Common risk factors in the returns on stocks and bonds"
+    url: "https://doi.org/10.1016/0304-405X(93)90023-5"
+    accessed: "2026-07-24"
+  - title: "Hypothetical performance and backtesting limitations"
+    url: "https://www.sec.gov/Archives/edgar/data/19617/000121390025117998/ea0268449-01_424b2.htm"
+    accessed: "2026-07-24"
 ---
 
 import CandlestickDemo from '../../../components/charts/CandlestickDemo';
 
-단일 지표는 노이즈에 취약합니다. 다중 요소 전략은 서로 다른 관점의 지표를 계층적으로 결합해 **신호의 품질을** 높이고 **오진입 비율을** 낮춥니다. 더 많은 필터일수록 거래 빈도는 줄지만 신호의 신뢰도는 높아집니다.
+단일 지표는 노이즈에 취약합니다. 다중 요소 전략은 서로 다른 정보 범주의 지표를 계층적으로 조합해 신호를 제한합니다. 그러나 필터를 더한다고 신뢰도가 자동으로 높아지는 것은 아닙니다. 비슷한 가격 변환을 반복해서 조합하면 정보가 중복되고, 과거 데이터에 맞춘 필터가 늘수록 과최적화 위험도 커집니다.
 
 ---
 

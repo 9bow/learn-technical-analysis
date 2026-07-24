@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 
 interface Question {
   id: string;
@@ -11,6 +11,35 @@ interface Question {
 interface QuizProps {
   section: string;
   title?: string;
+}
+
+function renderInline(text: string, keyPrefix: string): ReactNode[] {
+  return text.split(/(`[^`]+`|\n)/g).filter(Boolean).map((part, index) => {
+    if (part === '\n') return <br key={`${keyPrefix}-br-${index}`} />;
+    if (part.startsWith('`') && part.endsWith('`')) {
+      return <code key={`${keyPrefix}-code-${index}`}>{part.slice(1, -1)}</code>;
+    }
+    return <span key={`${keyPrefix}-text-${index}`}>{part}</span>;
+  });
+}
+
+function renderText(text: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  const codeBlock = /```(?:\w+)?\n([\s\S]*?)```/g;
+  let cursor = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = codeBlock.exec(text)) !== null) {
+    nodes.push(...renderInline(text.slice(cursor, match.index), `before-${match.index}`));
+    nodes.push(
+      <pre key={`block-${match.index}`} style={{ overflowX: 'auto' }}>
+        <code>{match[1]}</code>
+      </pre>,
+    );
+    cursor = match.index + match[0].length;
+  }
+  nodes.push(...renderInline(text.slice(cursor), `after-${cursor}`));
+  return nodes;
 }
 
 export default function Quiz({ section, title }: QuizProps) {
@@ -117,7 +146,7 @@ export default function Quiz({ section, title }: QuizProps) {
         <span>{title || '퀴즈'}</span>
         <span>{current + 1} / {questions.length}</span>
       </div>
-      <p style={{ fontWeight: 600, marginBottom: '1rem', lineHeight: 1.5 }}>{q.question}</p>
+      <p style={{ fontWeight: 600, marginBottom: '1rem', lineHeight: 1.5 }}>{renderText(q.question)}</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1rem' }}>
         {q.options.map((opt, idx) => {
           let bg = 'var(--sl-color-gray-6)';
@@ -147,14 +176,14 @@ export default function Quiz({ section, title }: QuizProps) {
                 lineHeight: 1.4,
               }}
             >
-              {opt}
+              {renderText(opt)}
             </button>
           );
         })}
       </div>
       {showResult && (
         <p style={{ padding: '0.75rem', backgroundColor: 'var(--sl-color-gray-6)', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.9rem', lineHeight: 1.5 }}>
-          {q.explanation}
+          {renderText(q.explanation)}
         </p>
       )}
       <div style={{ textAlign: 'right' }}>
