@@ -11,6 +11,9 @@ learning_objectives:
 prerequisites: ["06-advanced/multi-timeframe", "02-trend-analysis/trend-identification"]
 estimated_minutes: 55
 references:
+  - title: "SEC - Interest Rate Risk for Fixed-Rate Bonds"
+    url: "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-86"
+    accessed: "2026-10-23"
   - title: "Intermarket Analysis - Investopedia"
     url: "https://www.investopedia.com/terms/i/intermarket-analysis.asp"
     accessed: "2026-03-21"
@@ -33,7 +36,7 @@ references:
 
 | 관계 | 인플레이션 환경 | 디플레이션 환경 |
 |------|----------------|----------------|
-| 채권 ↔ 주식 | 역상관 | 정상관 |
+| 채권 가격 ↔ 주식 | 동반 하락 가능 (양의 상관) | 위험 회피 시 반대 방향 가능 (음의 상관) |
 | 원자재 ↔ 채권 | 역상관 | 역상관 |
 | 달러 ↔ 원자재 | 역상관 | 역상관 |
 | 주식 ↔ 원자재 | 정상관 | 역상관 |
@@ -42,7 +45,9 @@ references:
 
 채권 가격과 금리는 역의 관계입니다:
 
-$$\text{채권 가격} \propto \frac{1}{\text{금리}}$$
+$$P(y)=\sum_{t=1}^{T}\frac{CF_t}{(1+y)^t}$$
+
+연 1회 지급 고정 현금흐름 CF를 가정한 할인식입니다. 금리가 오르면 가격이 내려가지만 단순히 금리의 역수에 비례하지는 않습니다. 신용·옵션·지급 주기도 따로 고려합니다.
 
 **인플레이션 환경**(1970-1990년대):
 - 금리 상승 → 채권 가격 하락 → 주식에 부정적
@@ -66,7 +71,9 @@ $$\text{채권 가격} \propto \frac{1}{\text{금리}}$$
 - 달러 강세 → 원자재 가격 하락 (달러 표시 가격이 비싸짐)
 - 달러 약세 → 원자재 가격 상승
 
-$$\text{원자재 실질 가격} = \text{원자재 명목 가격} \times \frac{1}{\text{달러 인덱스}}$$
+$$\text{기준연도 실질 가격}_t=\text{명목 가격}_t\times\frac{CPI_{base}}{CPI_t}$$
+
+위 식은 CPI로 물가 조정한 예시입니다. DXY는 환율 지수이며 물가 지수가 아니므로 명목 원자재 가격을 DXY로 나눈 값을 실질 가격이라고 부르지 않습니다.
 
 ### 4. 주식과 원자재
 
@@ -160,7 +167,7 @@ $$r_{XY} = \frac{\sum_{i=1}^{n}(X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^
 
 ### 수치 예시: 상관계수 계산
 
-5일간 S&P 500과 10년 국채 수익률 데이터:
+실제 시세가 아닌, 상관계수 계산용 5일 가상 데이터입니다. 두 번째 열은 국채 가격 수익률이 아니라 금리 변화(bp)입니다:
 
 | 날짜 | S&P 500 수익률(%) | 10Y 수익률 변화(bp) |
 |------|------------------|-------------------|
@@ -172,9 +179,9 @@ $$r_{XY} = \frac{\sum_{i=1}^{n}(X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^
 
 평균: $\bar{X} = 0.16$, $\bar{Y} = 1.0$
 
-$$r = \frac{(0.34)(2) + (-0.96)(-6) + (1.04)(7) + (0.14)(0) + (-0.56)(-3)}{\sqrt{2.2264 \times 98}} = \frac{0.68 + 5.76 + 7.28 + 0 + 1.68}{\sqrt{218.19}} \approx \frac{15.4}{14.77} \approx 0.99$$
+$$r = \frac{(0.34)(2) + (-0.96)(-6) + (1.04)(7) + (0.14)(0) + (-0.56)(-3)}{\sqrt{2.452 \times 98}} = \frac{0.68 + 5.76 + 7.28 + 0 + 1.68}{\sqrt{240.296}} \approx \frac{15.4}{15.5015} \approx 0.99$$
 
-→ 이 기간 동안 매우 높은 정상관 관계
+→ 이 가상 표의 상관계수는 약 0.9935입니다. 단 5개 관측으로 장기 관계나 인과관계를 입증할 수 없습니다.
 
 ---
 
@@ -264,3 +271,5 @@ $$r = \frac{(0.34)(2) + (-0.96)(-6) + (1.04)(7) + (0.14)(0) + (-0.56)(-3)}{\sqrt
 | 구리/금 비율 | 경기 심리 바로미터 |
 | 상관관계 | 고정이 아닌 동적 → 롤링으로 추적 |
 | 한국 시장 | 환율, 반도체 가격, 외국인 수급이 핵심 변수 |
+
+- [SEC - Interest Rate Risk for Fixed-Rate Bonds](https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-86)

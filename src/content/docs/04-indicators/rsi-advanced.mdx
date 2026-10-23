@@ -13,13 +13,16 @@ learning_objectives:
 prerequisites: ["04-indicators/momentum"]
 estimated_minutes: 45
 references:
+  - title: "TradingView - RSI calculation"
+    url: "https://www.tradingview.com/support/solutions/43000502338-relative-strength-index-rsi/"
+    accessed: "2026-10-23"
   - title: "RSI - StockCharts Chart School"
     url: "https://school.stockcharts.com/doku.php?id=technical_indicators:relative_strength_index_rsi"
     accessed: "2026-03-21"
   - title: "Andrew Cardwell RSI Methodology"
     url: "https://cardwellrsiedge.com"
     accessed: "2026-03-21"
-  - title: "New Concepts in Technical Trading Systems - J. Welles Wilder Jr."
+  - title: "Relative Strength Index (RSI): What It Is, How It Works, and Formula - Investopedia"
     url: "https://www.investopedia.com/terms/r/rsi.asp"
     accessed: "2026-03-21"
 ---
@@ -42,9 +45,9 @@ RSI를 진정으로 이해하면 단순한 과매수/과매도 신호를 넘어,
 
 기초 챕터에서는 단순 평균으로 RSI를 계산했습니다. 실제 RSI**Wilder의 지수 스무딩(Wilder Smoothing**)방식을 사용합니다. 이 차이가 중요한 이유는 지표 값의 정확한 해석에 영향을 주기 때문입니다.
 
-### 1단계: 초기값 계산 (첫 14일)
+### 1단계: 초기값 계산 (15개 종가의 14개 변화)
 
-첫 14일 동안은 단순 평균으로 초기 RS를 구합니다.
+초기 RSI(14)에는 14개 가격 변화가 필요하므로 종가 15개를 사용합니다. 상승과 하락 평균 모두 14로 나눕니다.
 
 | 날짜 | 종가 | 변화 | 상승 | 하락 |
 |------|------|------|------|------|
@@ -62,9 +65,10 @@ RSI를 진정으로 이해하면 단순한 과매수/과매도 신호를 넘어,
 | 12일 | 107,500 | -500 | 0 | 500 |
 | 13일 | 109,000 | +1,500 | 1,500 | 0 |
 | 14일 | 110,000 | +1,000 | 1,000 | 0 |
+| 15일 | 110,000 | 0 | 0 | 0 |
 
 ```
-14일 합산:
+14개 가격 변화 합산 (2~15일):
 상승 합계: 2,500 + 2,800 + 1,800 + 1,500 + 1,200 + 1,200 + 1,500 + 1,000 = 13,500
 하락 합계: 1,500 + 600 + 500 + 400 + 500 = 3,500
 
@@ -83,7 +87,7 @@ $$\text{평균 상승폭}_t = \frac{\text{평균 상승폭}_{t-1} \times 13 + \t
 
 $$\text{평균 하락폭}_t = \frac{\text{평균 하락폭}_{t-1} \times 13 + \text{당일 하락폭}}{14}$$
 
-15일차에 종가가 109,000으로 하락했다면(하락폭 = 1,000):
+16일차에 종가가 109,000으로 하락했다면(하락폭 = 1,000):
 
 ```
 새 평균 상승폭 = (964.3 x 13 + 0) / 14 = 12,535.9 / 14 = 895.4
@@ -512,5 +516,7 @@ RSI 다이버전스 또는 페일러 스윙 발생 시 다음을 확인하세요
 
 - [RSI - StockCharts Chart School](https://school.stockcharts.com/doku.php?id=technical_indicators:relative_strength_index_rsi)
 - [Andrew Cardwell RSI Edge](https://cardwellrsiedge.com)
-- [New Concepts in Technical Trading Systems - Investopedia 해설](https://www.investopedia.com/terms/r/rsi.asp)
+- [Relative Strength Index (RSI) - Investopedia 해설](https://www.investopedia.com/terms/r/rsi.asp)
 - [RSI Divergence Guide - TradingView](https://www.tradingview.com/education/divergence/)
+
+- [TradingView - RSI calculation](https://www.tradingview.com/support/solutions/43000502338-relative-strength-index-rsi/)

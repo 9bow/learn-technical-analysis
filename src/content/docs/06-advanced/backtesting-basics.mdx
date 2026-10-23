@@ -11,6 +11,12 @@ learning_objectives:
 prerequisites: ["07-risk-management/risk-reward", "02-trend-analysis/moving-averages"]
 estimated_minutes: 60
 references:
+  - title: "Bailey et al. - The Probability of Backtest Overfitting"
+    url: "https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf"
+    accessed: "2026-10-23"
+  - title: "William F. Sharpe - The Sharpe Ratio (1994)"
+    url: "https://web.stanford.edu/~wfsharpe/art/sr/sr.htm"
+    accessed: "2026-10-23"
   - title: "Backtesting - Investopedia"
     url: "https://www.investopedia.com/terms/b/backtesting.asp"
     accessed: "2026-03-21"
@@ -111,7 +117,7 @@ $$\text{MDD} = \min_{t} \left(\frac{V_t - V_{\text{peak}}}{V_{\text{peak}}}\righ
 
 $$S = \frac{R_p - R_f}{\sigma_p}$$
 
-- $R_p$: 전략의 연환산 수익률
+- $R_p$: 같은 관측 주기 수익률의 산술 평균을 연율화한 값 (CAGR과 구분)
 - $R_f$: 무위험 수익률 (예: 국채 금리)
 - $\sigma_p$: 전략 수익률의 연환산 표준편차
 
@@ -136,13 +142,15 @@ $$S = \frac{0.15 - 0.03}{0.18} = \frac{0.12}{0.18} = 0.67$$
 
 $$\text{Sortino} = \frac{R_p - R_f}{\sigma_d}$$
 
-샤프 비율과 유사하지만, $\sigma_d$**하방 변동성만** 사용합니다. 상방 변동성(수익)은 패널티를 주지 않아 더 합리적인 측정입니다.
+여기서 목표 수익률을 R_f로 정하면 하방 편차는 전체 관측 수 N을 분모로 한 `sqrt(mean(min(r_t-R_f,0)^2))`입니다. 손실 거래만 골라 계산한 표준편차와 다릅니다. 목표 수익률과 관측·연율화 주기를 기록합니다.
 
 ### 6. 승률과 손익비
 
 $$\text{승률} = \frac{\text{수익 거래 수}}{\text{전체 거래 수}} \times 100\%$$
 
-$$\text{손익비 (Profit Factor)} = \frac{\text{총 수익}}{\text{총 손실}}$$
+$$\text{Profit Factor} = \frac{\text{총 이익}}{|\text{총 손실}|}$$
+
+거래당 평균 이익/평균 손실인 손익비와 다릅니다. 예를 들어 40승×5만원, 60패×2만원이면 손익비 2.5, Profit Factor는 200/120≈1.67입니다.
 
 $$\text{기대값} = (\text{승률} \times \text{평균 수익}) - ((1 - \text{승률}) \times \text{평균 손실})$$
 
@@ -164,6 +172,12 @@ $$\text{Calmar} = \frac{\text{CAGR}}{|\text{MDD}|}$$
 
 ---
 
+## 데이터 누출과 전략 선택 편향
+
+종가로 확정한 신호는 다음 거래 가능 가격으로 체결합니다. 주봉·월봉이나 일목 후행스팬의 차트 표시 위치를 현재 사용 가능한 정보와 혼동하지 않습니다. 상장폐지 종목, 과거 지수 구성, 발표 지연, 수정 데이터와 공매도 차입 비용도 기록합니다.
+
+여러 규칙을 비교한 뒤 가장 좋은 결과만 보고하면 선택 편향이 발생합니다. 시험한 조합 수와 실패 결과를 보존하고 최종 미사용 구간을 재최적화에 사용하지 않습니다. [Bailey 등의 원논문](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf)은 이러한 백테스트 과적합을 다룹니다.
+
 ## 거래 비용 모델링
 
 백테스팅에서 거래 비용을 무시하면 실제 성과와 큰 괴리가 발생합니다.
@@ -179,14 +193,15 @@ $$\text{Calmar} = \frac{\text{CAGR}}{|\text{MDD}|}$$
 
 ### 비용이 성과에 미치는 영향
 
-**예시**: 연 200회 거래하는 단기 전략
+**예시**: 매번 계좌의 일정 비중 w로 연 200회 왕복 거래하고, 편도 비용을 명목금액의 0.2%로 가정합니다.
 
-- 거래당 총 비용: 0.2% (수수료 + 슬리피지)
-- 연간 비용: $200 \times 0.2\% \times 2\text{(왕복)} = 80\%$
+```
+왕복 명목 비용률 = 0.2% × 2 = 0.4%
+계좌 대비 단순 합산 비용 근사 = 200 × w × 0.4%
+w=10%이면 약 8%, w=100%이면 약 80%
+```
 
-→ 연 80%의 수수료 부담! 이 경우 총 수익률이 80%를 넘지 않으면 손실
-
-**교훈**: 거래 빈도가 높을수록 비용 모델링이 중요
+포지션 규모와 회전율을 빼고 거래당 비용률을 계좌 연 수익률에서 바로 차감할 수 없습니다. 자본이 변하면 합산과 복리 결과도 달라집니다. 스프레드·시장 충격을 포함한 슬리피지를 사용하면 같은 비용을 중복 차감하지 않습니다.
 
 ---
 
@@ -259,9 +274,7 @@ $$\text{Calmar} = \frac{\text{CAGR}}{|\text{MDD}|}$$
 
 $$\text{WFE} = \frac{\text{아웃오브샘플 CAGR}}{\text{인샘플 CAGR}} \times 100\%$$
 
-- WFE > 50%: 양호
-- WFE > 70%: 우수
-- WFE < 30%: 과최적화 의심
+인샘플 CAGR이 0 근처이거나 음수이면 이 비율은 불안정하거나 해석이 뒤집힙니다. 50%·70% 같은 값은 보편적 합격 기준이 아닙니다. 기간별 순수익·낙폭·표본 수·추정 오차를 함께 봅니다.
 
 ### 3. 몬테카를로 시뮬레이션
 
@@ -272,11 +285,13 @@ $$\text{WFE} = \frac{\text{아웃오브샘플 CAGR}}{\text{인샘플 CAGR}} \tim
 3. 1,000~10,000회 반복
 4. MDD, 최종 자본 등의 분포를 확인
 
-→ "운이 좋아서 성과가 좋았을 확률"을 정량화
+→ 관측된 거래 손익을 재배열했을 때의 경로와 낙폭 분포를 확인합니다. 단순 재배열은 고정 규모 손익의 총합이나 고정 비율 수익의 최종 곱을 바꾸지 않습니다. 거래 의존성을 보존하려면 블록 재표본 등을 검토합니다. 이것만으로 우연한 수익의 확률이나 전략 선택 편향을 추정하지는 못합니다.
 
 ---
 
-## 실전 백테스팅 예시
+## 백테스팅 결과표 읽기 예시
+
+아래 숫자는 설명용 가상 결과이며 실제 데이터로 재현한 성과가 아닙니다. 기간·가격 원천·비용·체결·배당 처리를 갖춘 실행 기록이 있어야 실측 성과로 제시할 수 있습니다.
 
 ### 골든/데드 크로스 전략 백테스팅
 
@@ -291,7 +306,7 @@ $$\text{WFE} = \frac{\text{아웃오브샘플 CAGR}}{\text{인샘플 CAGR}} \tim
 | 지표 | 값 |
 |------|-----|
 | 총 수익률 | 45.2% |
-| CAGR | 7.7% |
+| CAGR | 약 7.74% |
 | MDD | -18.3% |
 | 샤프 비율 | 0.62 |
 | 칼마 비율 | 0.42 |
@@ -299,14 +314,14 @@ $$\text{WFE} = \frac{\text{아웃오브샘플 CAGR}}{\text{인샘플 CAGR}} \tim
 | 승률 | 38.2% |
 | 평균 수익 거래 | +8.5% |
 | 평균 손실 거래 | -2.1% |
-| 손익비 | 2.49 |
+| 평균 이익/평균 손실 | 약 4.05 |
 | 최대 연속 손실 | 5회 |
 
 **분석**:
 - 승률은 38%로 낮지만, 손익비(4:1)가 높아 양의 기대값
-- MDD -18.3%는 감내 가능한 수준
+- MDD -18.3%의 허용 여부는 사전에 정한 위험 예산과 비교
 - 샤프 비율 0.62는 보통 → 필터 추가로 개선 여지
-- 거래 빈도 낮음 (연 7회) → 거래 비용 영향 미미
+- 거래 빈도가 낮아도 포지션 규모·스프레드·차입 비용에 따라 비용 영향이 달라짐
 
 ---
 
@@ -339,3 +354,7 @@ $$\text{WFE} = \frac{\text{아웃오브샘플 CAGR}}{\text{인샘플 CAGR}} \tim
 | 검증 방법 | 워크포워드 분석 > 단순 인/아웃샘플 분할 |
 | 거래 비용 | 반드시 포함, 특히 단기 전략 |
 | 최대 함정 | 미래 정보 사용, 생존자 편향, 데이터 스누핑 |
+
+- [William F. Sharpe - The Sharpe Ratio (1994)](https://web.stanford.edu/~wfsharpe/art/sr/sr.htm)
+
+- [Bailey et al. - The Probability of Backtest Overfitting](https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf)

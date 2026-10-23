@@ -12,6 +12,9 @@ prerequisites:
   - "backtesting-basics"
 estimated_minutes: 60
 references:
+  - title: "statsmodels - Engle-Granger Cointegration Test"
+    url: "https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html"
+    accessed: "2026-10-23"
   - title: "Pairs Trading - Investopedia"
     url: "https://www.investopedia.com/terms/p/pairstrade.asp"
     accessed: "2026-05-18"
@@ -57,18 +60,15 @@ $$Z_{spread} = \frac{\text{Spread} - \mu_{spread}}{\sigma_{spread}}$$
 ```
 [1단계: 공적분 관계 검증]
 
-함수 check_cointegration(가격_A, 가격_B):
-    # Engle-Granger 2단계 검정
-    beta = 선형회귀(가격_A ~ 가격_B).기울기
-    spread = 가격_A - beta × 가격_B
+함수 check_cointegration(완료된_가격_A, 완료된_가격_B):
+    # 두 가격 계열이 I(1)이라는 가정을 먼저 검토
+    # Engle-Granger 전용 임계값을 사용하는 검정
+    통계량, p값, 임계값 = coint(가격_A, 가격_B, trend='c')
+    alpha, beta = 상수항을_포함한_회귀(가격_A ~ 가격_B)
+    residual_series = 가격_A - alpha - beta × 가격_B
+    반환 p값 < 사전에_정한_수준, alpha, beta, residual_series
 
-    # ADF 검정으로 스프레드 정상성 확인
-    adf_결과 = ADF_검정(spread)
 
-    만약 adf_결과.p값 < 0.05:
-        반환 True, beta  # 공적분 관계 확인됨
-    그렇지 않으면:
-        반환 False, None
 
 [2단계: Z-점수 계산]
 
@@ -81,20 +81,20 @@ $$Z_{spread} = \frac{\text{Spread} - \mu_{spread}}{\sigma_{spread}}$$
 [3단계: 거래 실행]
 
 매일 반복:
-    공적분_여부, beta = check_cointegration(가격_A[최근90일], 가격_B[최근90일])
+    공적분_여부, alpha, beta, spread_series = check_cointegration(전일까지_가격_A[최근90일], 전일까지_가격_B[최근90일])
 
     만약 공적분_여부 == False:
         포지션 전량 청산  # 관계 붕괴 — 전략 중단
         계속
 
-    spread = 가격_A[현재] - beta × 가격_B[현재]
-    Z = 계산_Z점수(spread)
+    현재_잔차 = 가격_A[현재] - alpha - beta × 가격_B[현재]
+    Z = (현재_잔차 - spread_series.평균()) / spread_series.표준편차()
 
     만약 포지션 없음:
         만약 Z > +2.0:
-            A 매도, B 매수 (각각 동일 금액)
+            A 1단위 매도, B beta단위 매수 (beta > 0인 예시)
         만약 Z < -2.0:
-            A 매수, B 매도 (각각 동일 금액)
+            A 1단위 매수, B beta단위 매도 (beta > 0인 예시)
 
     만약 포지션 있음:
         만약 -0.5 < Z < +0.5:
@@ -116,11 +116,12 @@ $$Z_{spread} = \frac{\text{Spread} - \mu_{spread}}{\sigma_{spread}}$$
 - 동일 프로젝트의 거래소 간 가격 차이
 
 ```
-[코스피 예시 — 현대차/기아]
+[가상 페어 예시 — 실제 현대차/기아 백테스트가 아님]
 
-기간: 2023-01-01 ~ 2023-12-31 (일봉 데이터)
+기간·가격·비용이 없는 해석 연습용 숫자
 
-ADF 검정 결과: p값 = 0.018 → 공적분 관계 확인
+공적분 검정의 가상 p값 = 0.018 → 설정한 유의수준에서 귀무가설 기각
+관계의 미래 유지나 수익성을 입증하지 않음
 beta = 0.72 (현대차 = 0.72 × 기아 + 잔차)
 
 Z > +2 진입 발생: 연간 11회
@@ -374,17 +375,18 @@ $$\text{확신도} = \left|\frac{\sum_{i=1}^{N} w_i \cdot s_i}{\sum_{i=1}^{N} w_
 
 2. 충분한 아웃오브샘플(OOS) 데이터 확보
    → 전체 데이터의 최소 30%를 학습에 사용하지 않음
-   → OOS 성능이 인샘플의 70% 이상이어야 신뢰 가능
+   → 보편적인 70% 합격 기준은 없음. 비용·표본 수·불확실성과 함께 평가
 
 3. 특성 수를 샘플 수에 비례하여 제한
    → 특성이 너무 많으면 과적합 가능성 증가
-   → 일반적으로 특성 수 < 샘플 수 / 10
+   → 시계열 의존성과 모델 복잡도를 고려하며 보편적인 1/10 규칙은 없음
 
 4. 거래 비용 반영
    → 신호가 아무리 좋아도 수수료 + 슬리피지 차감 후 수익성 확인
 
 5. 통계적 유의성 검증
-   → 성과가 운에 의한 것이 아님을 확인 (p-value < 0.05)
+   → 여러 페어·특성·모형을 시험한 선택 편향을 함께 평가
+   → p값 < 0.05가 우연이 아님이나 미래 수익을 증명하지 않음
 ```
 
 ### 장단점
@@ -435,3 +437,5 @@ import Quiz from '../../../components/learning/Quiz';
 ## 섹션 퀴즈
 
 <Quiz section="09-quant-strategies" client:visible />
+
+- [statsmodels - Engle-Granger Cointegration Test](https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html)

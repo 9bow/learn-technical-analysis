@@ -11,6 +11,9 @@ learning_objectives:
 prerequisites: ["moving-averages"]
 estimated_minutes: 45
 references:
+  - title: "TradingView - Average True Range (ATR)"
+    url: "https://www.tradingview.com/support/solutions/43000501823-average-true-range-atr/"
+    accessed: "2026-10-23"
   - title: "Bollinger Bands - Investopedia"
     url: "https://www.investopedia.com/terms/b/bollingerbands.asp"
     accessed: "2026-03-21"
@@ -51,7 +54,7 @@ $$\text{Upper Band} = \text{Middle Band} + K \times \sigma_N$$
 $$\text{Lower Band} = \text{Middle Band} - K \times \sigma_N$$
 
 기본 설정:** N = 20일, K = 2 (표준편차 배수**)
-2 표준편차를 사용하면 이론적으로 약 95%의 가격이 밴드 내에 포함됩니다.
+2표준편차 밴드는 가격의 95% 포함이나 다음 가격의 반전을 보장하지 않습니다. [John Bollinger의 규칙](https://www.bollingerbands.com/bollinger-band-rules)은 정규분포 가정을 적용하지 말라고 명시합니다.
 
 ### 볼린저 밴드 계산 예시
 
@@ -107,7 +110,9 @@ ATR은 J. Welles Wilder Jr.가 1978년에 개발한 지표로, 가격의 일일 
 
 $$TR = \max\begin{cases} \text{당일 고가} - \text{당일 저가} \\ |\text{당일 고가} - \text{전일 종가}| \\ |\text{당일 저가} - \text{전일 종가}| \end{cases}$$
 
-$$ATR = EMA(TR,\ N) \quad (기본:\ N = 14)$$
+$$ATR_t = \frac{(N-1)ATR_{t-1} + TR_t}{N} \quad (N = 14)$$
+
+최초 N개 TR의 단순 평균으로 시작하는 Wilder 평활화입니다. 일반 EMA의 α = 2/(N+1)과 다릅니다.
 
 갭 상승/하락 시 단순 고저 범위만으로는 실제 변동성이 과소평가되므로 전일 종가를 포함합니다.
 
@@ -116,7 +121,7 @@ $$ATR = EMA(TR,\ N) \quad (기본:\ N = 14)$$
 | 날짜 | 고가 | 저가 | 종가 | TR |
 |------|------|------|------|-----|
 | 1일차 | 52,000 | 49,000 | 51,000 | 3,000 |
-| 2일차 | 53,000 | 50,500 | 52,500 | max(2,500 / 2,000 / 0) = 2,500 |
+| 2일차 | 53,000 | 50,500 | 52,500 | max(2,500 / 2,000 / 500) = 2,500 |
 | 3일차 | 51,000 | 48,000 | 49,000 | max(3,000 / 1,500 / 4,500) =**4,50**0|
 
 3일차 해설: 갭 하락으로 전일 종가(52,500)와 당일 저가(48,000) 차이가 4,500으로 가장 큼
@@ -382,3 +387,5 @@ Bandwidth 10% = 스퀴즈라고 고정 기준을 적용합니다. 변동성이 �
 - [Average True Range (ATR) - StockCharts Chart School](https://school.stockcharts.com/doku.php?id=technical_indicators:average_true_range_atr)
 - [Bollinger Bands - BabyPips](https://www.babypips.com/learn/forex/bollinger-bands)
 - [Keltner Channels - Investopedia](https://www.investopedia.com/terms/k/keltnerchannel.asp)
+
+- [TradingView - Average True Range (ATR)](https://www.tradingview.com/support/solutions/43000501823-average-true-range-atr/)

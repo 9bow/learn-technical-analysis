@@ -11,6 +11,9 @@ learning_objectives:
 prerequisites: ["moving-averages"]
 estimated_minutes: 45
 references:
+  - title: "TradingView - Relative Strength Index (RSI)"
+    url: "https://www.tradingview.com/support/solutions/43000502338-relative-strength-index-rsi/"
+    accessed: "2026-10-23"
   - title: "Relative Strength Index (RSI) - Investopedia"
     url: "https://www.investopedia.com/terms/r/rsi.asp"
     accessed: "2026-03-21"
@@ -47,11 +50,12 @@ $$RSI = 100 - \frac{100}{1 + RS}$$
 
 $$RS = \frac{\text{평균 상승폭}}{\text{평균 하락폭}}$$
 
-- 평균 상승폭: N일간 상승한 날의 평균 상승폭
-- 평균 하락폭: N일간 하락한 날의 평균 하락폭 (절댓값)
+- 초기 평균 상승폭: N개 가격 변화의 양수 부분 합계 / N (하락·보합은 0)
+- 초기 평균 하락폭: N개 가격 변화의 음수 부분 절댓값 합계 / N (상승·보합은 0)
+- 이후 평균: Wilder 평활화 `(이전 평균 × (N - 1) + 당일 값) / N`
 
 기본 기간:** 14**
-**단계별 계산 예시 (5일 단순화):**
+**단계별 계산 예시 (5개 종가의 4개 변화로 초기 RSI(4) 계산):**
 | 날짜 | 종가 | 변화 | 상승 | 하락 |
 |------|------|------|------|------|
 | 1일차 | 100,000 | - | - | - |
@@ -332,3 +336,5 @@ RSI는 매수 신호(30 이하), 스토캐스틱은 과매수(80 이상)를 동�
 - [RSI - StockCharts Chart School](https://school.stockcharts.com/doku.php?id=technical_indicators:relative_strength_index_rsi)
 - [Stochastic Oscillator - BabyPips](https://www.babypips.com/learn/forex/stochastic)
 - [CCI - StockCharts Chart School](https://school.stockcharts.com/doku.php?id=technical_indicators:commodity_channel_index_cci)
+
+- [TradingView - Relative Strength Index (RSI)](https://www.tradingview.com/support/solutions/43000502338-relative-strength-index-rsi/)

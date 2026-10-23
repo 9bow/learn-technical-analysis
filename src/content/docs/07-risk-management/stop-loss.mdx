@@ -11,6 +11,9 @@ learning_objectives:
 prerequisites: ["position-sizing", "support-resistance"]
 estimated_minutes: 42
 references:
+  - title: "FINRA - Stop Orders: Factors to Consider During Volatile Markets"
+    url: "https://www.finra.org/investors/insights/stop-orders-factors-consider-during-volatile-markets"
+    accessed: "2026-10-23"
   - title: "Stop-Loss Order - Investopedia"
     url: "https://www.investopedia.com/terms/s/stop-lossorder.asp"
     accessed: "2026-03-21"
@@ -72,7 +75,9 @@ import BeforeAfter from '../../../components/charts/BeforeAfter';
 
 $$TR = \max\left(\text{당일 고가} - \text{당일 저가},\ \left|\text{당일 고가} - \text{전일 종가}\right|,\ \left|\text{당일 저가} - \text{전일 종가}\right|\right)$$
 
-$$ATR = \text{TR의 N일 이동평균 (기본값: 14일)}$$
+$$ATR_t = \frac{(N-1)ATR_{t-1}+TR_t}{N} \quad (N=14)$$
+
+최초 N개 TR의 단순 평균을 초기값으로 사용하는 Wilder 평활화입니다.
 
 ### ATR 기반 손절 계산
 
@@ -328,3 +333,5 @@ ATR(14일): 1,500,000원
 - [Stop-Loss Order - Investopedia](https://www.investopedia.com/terms/s/stop-lossorder.asp)
 - [Average True Range (ATR) - Investopedia](https://www.investopedia.com/terms/a/atr.asp)
 - [Trailing Stop - StockCharts ChartSchool](https://school.stockcharts.com/doku.php?id=trading_strategies:trailing_stops)
+
+- [FINRA - Stop Orders: Factors to Consider During Volatile Markets](https://www.finra.org/investors/insights/stop-orders-factors-consider-during-volatile-markets)

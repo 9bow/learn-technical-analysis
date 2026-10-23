@@ -11,6 +11,12 @@ learning_objectives:
 prerequisites: ["what-is-ta"]
 estimated_minutes: 42
 references:
+  - title: "Glassnode - SOPR"
+    url: "https://docs.glassnode.com/further-information/metric-guides/sopr/sopr-spent-output-profit-ratio"
+    accessed: "2026-10-23"
+  - title: "Glassnode - NVT Signal"
+    url: "https://docs.glassnode.com/further-information/metric-guides/nvt/nvt-signal"
+    accessed: "2026-10-23"
   - title: "Glassnode Academy - On-Chain Fundamentals"
     url: "https://academy.glassnode.com"
     accessed: "2026-03-21"
@@ -142,6 +148,10 @@ MVRV는 현재 가격이 실현 시가총액(시장 평균 원가) 대비 얼마
 
 ---
 
+### SOPR과 주소 해석의 한계
+
+SOPR은 소비된 출력의 소비 시 USD 가치 합계를 생성 시 USD 가치 합계로 나눈 값입니다. 1 미만은 합계 기준 손실이며, 코인 개수의 과반수가 손실이라는 뜻은 아닙니다. 블록체인 이동이 실제 시장 매도나 매수를 증명하지도 않습니다. 활성 주소는 고유 사람 수와 다르며 거래소 라벨·수탁 지갑 재편·자전 이동을 확인합니다.
+
 ## 장기 보유자 vs 단기 보유자
 
 온체인 분석에서는코**인을 마지막으로 이동한 시점을** 기준으로 보유자를 구분합니다.
@@ -229,9 +239,9 @@ NVT는 느리게 움직이는 후행 지표입니다. 단기 트레이딩 신호
 
 ### NVT 시그널 (NVT Signal)
 
-NVT를 14일 이동평균으로 부드럽게 처리한 버전으로, 단기 노이즈를 줄여 신호의 신뢰도를 높입니다.
+NVT Signal은 분모인 일별 온체인 전송량에 90일 이동평균을 적용한 변형입니다. NVT 비율 자체를 14일 평활화한 지표와 다릅니다.
 
-$$NVT\ Signal = \frac{\text{시가총액}}{\text{온체인 전송량의 14일 이동평균}}$$
+$$NVT\ Signal = \frac{\text{시가총액}}{\text{온체인 전송량의 90일 이동평균}}$$
 
 ---
 
@@ -384,3 +394,7 @@ $$NVT\ Signal = \frac{\text{시가총액}}{\text{온체인 전송량의 14일 �
 - [Glassnode Academy - On-Chain Fundamentals](https://academy.glassnode.com)
 - [CoinMetrics - Network Data Pro](https://coinmetrics.io/insights/)
 - [On-Chain Analysis - Investopedia](https://www.investopedia.com/on-chain-analysis-6746702)
+
+- [Glassnode - NVT Signal](https://docs.glassnode.com/further-information/metric-guides/nvt/nvt-signal)
+
+- [Glassnode - SOPR](https://docs.glassnode.com/further-information/metric-guides/sopr/sopr-spent-output-profit-ratio)
